@@ -4,11 +4,11 @@
 - 룸 방식
 
 ##### 서버
-- DediCated Server (Mirror)
+- Listen Server (Mirror)
 
 ##### 형상 관리
 - Unity Version Control (Plastic SCM)
 
-##### 사용 API 
-- UniTask
-- Dotween
+##### API  
+- UniTask 
+- Dotween (사용 예정)
