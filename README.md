@@ -9,9 +9,13 @@
 ##### 형상 관리
 - Unity Version Control (Plastic SCM)
 
+##### AI
+- Behavior Tree
+  
 ##### API  
 - UniTask 
-- Dotween (사용 예정)
+- Mirror
+- Behevior Tree 
 
 ##### 커밋 내역
 <img width="695" alt="1" src="https://github.com/SiwonChoi98/MultiPlayerGame/assets/118884862/a98f73bd-2346-4f58-a752-f93ef80b7498">
