@@ -4,41 +4,81 @@ using System.Collections.Generic;
 using Mirror;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class BattleManager : Singleton<BattleManager>
+public class BattleManager : NetworkBehaviour
 {
-    [SerializeField] private BasePoolObject _healthPotionItem;
+    public static BattleManager Instance = null; 
+    
+    public SpawnItems SpwanItem;
 
-    [SerializeField] private List<BasePoolObject> _gunItemlList;
+    public GameObject AI;
+    #region UnityMethod
+
+    private void Awake()
+    {
+        Init_BattleManager();
+    }
+    
     private void Update()
     {
-        SpawnHealthItem();
-        SpawnGunItem();
+        if (!isServer)
+            return;
+
+        Server_SpawnHealthItem();
+        Server_SpawnGunItem();
+        
+        Server_SpawnAI();
     }
 
-    private void SpawnHealthItem()
+    #endregion
+
+    private void Init_BattleManager()
+    {
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            if (Instance != this)
+                Destroy(this.gameObject); 
+        }
+    }
+
+    [Server]
+    private void Server_SpawnHealthItem()
     {
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.HEALTH_ITEM, _healthPotionItem, transform);
-            NetworkServer.Spawn(basePoolObject.gameObject);
-            
-            //해당 오브젝트 타입 결정
-            basePoolObject.GetComponent<BasePoolObject>().InitType(PoolObjectType.HEALTH_ITEM);
+            SpwanItem.Server_SpawnHealthItem();
         }
     }
 
-    private void SpawnGunItem()
+    [Server]
+    private void Server_SpawnGunItem()
     {
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            int index =  Random.Range(0, _gunItemlList.Count);
-            //BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType, _gunItemlList[index], transform);
-            //NetworkServer.Spawn(basePoolObject.gameObject);
-            
-            //해당 오브젝트 타입 결정
-            //basePoolObject.GetComponent<BasePoolObject>().InitType(PoolObjectType.HEALTH_ITEM);
+            SpwanItem.Server_SpawnGunItem(RandomIndex(SpwanItem.GunItemList.Count));
         }
     }
+    
+    [Server]
+    private void Server_SpawnAI()
+    {
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            GameObject gameObject = Instantiate(AI);
+            NetworkServer.Spawn(gameObject);
+        }
+    }
+    public int RandomIndex(int maxCount)
+    {
+        int index =  Random.Range(0, maxCount);
+        return index;
+    }
+    
 }

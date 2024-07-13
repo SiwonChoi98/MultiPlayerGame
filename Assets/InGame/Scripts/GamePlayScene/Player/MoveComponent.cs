@@ -15,9 +15,10 @@ public class MoveComponent : NetworkBehaviour
     [SerializeField] private bool _isMoveable = true;
     private float stepSoundSensitivity = 1.0f;
     private float moveAccumForStepSound = 0.0f;
-
+    
+    
     [SyncVar]
-    private float _speed;
+    [SerializeField] private float _speed;
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
@@ -26,7 +27,7 @@ public class MoveComponent : NetworkBehaviour
 
     private void Start()
     {
-        Server_InitSpeed(GameSettings.InitPlayerMoveSpeed);
+        //Server_InitSpeed(GameSettings.InitPlayerMoveSpeed);
     }
 
     [Server]
@@ -37,31 +38,48 @@ public class MoveComponent : NetworkBehaviour
             _speed = speed;
         }
     }
+
     
+    //AI
+    [Server]
+    public void Server_Move(Vector2 dir)
+    {
+        if (isServer)
+        {
+            Move(dir);    
+        }
+    }
+    
+    //User
     public void Move(Vector2 dir)
     {
-        if (_isMoveable) //authority
+        if (_isMoveable)
         {
             Vector2 moveDelta = dir * (_speed * Time.fixedDeltaTime);
             Vector2 newPosition = _rigidbody2D.position + moveDelta;
             _rigidbody2D.MovePosition(newPosition);
 
-            moveAccumForStepSound += moveDelta.magnitude;
+            PlayMoveSound(moveDelta);
+        }
+    }
 
-            if (moveAccumForStepSound >= stepSoundSensitivity)
+    private void PlayMoveSound(Vector2 moveDelta)
+    {
+        moveAccumForStepSound += moveDelta.magnitude;
+        
+        if (moveAccumForStepSound >= stepSoundSensitivity)
+        {
+            int soundNum = (int)(moveAccumForStepSound / stepSoundSensitivity);
+            moveAccumForStepSound -= soundNum * stepSoundSensitivity;
+
+            // 발자국 소리를 soundNum 번 재생
+            for (int i = 0; i < soundNum; i++)
             {
-                int soundNum = (int)(moveAccumForStepSound / stepSoundSensitivity);
-                moveAccumForStepSound -= soundNum * stepSoundSensitivity;
+                _audioComponent.PlayAudioOneShot(_moveAudioClipList[_moveClipIndex]);
+                _moveClipIndex++;
 
-                // 발자국 소리를 soundNum 번 재생
-                for (int i = 0; i < soundNum; i++)
-                {
-                    _audioComponent.PlayAudioOneShot(_moveAudioClipList[_moveClipIndex]);
-                    _moveClipIndex++;
-
-                    if (_moveAudioClipList.Count-1 < _moveClipIndex)
-                        _moveClipIndex = 0;
-                }
+                if (_moveAudioClipList.Count-1 < _moveClipIndex)
+                    _moveClipIndex = 0;
             }
         }
     }

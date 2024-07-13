@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec5d7f5bf845b044a135db9e9b53d25, type: 3}
   m_Name: Winchester
   m_EditorClassIdentifier: 
-  Name: Winchester
   GunDataType: 1
-  WeaponSprite: {fileID: 1863125112, guid: 3248a736713c78846bef4364d8ffd792, type: 3}
-  WeaponPos: {x: -0.1, y: -0.4}
+  VfxObjectType: 1
+  VfxObjectName: Winchester_Vfx
+  GunSpriteType: 1
+  GunSpriteName: Weapons_6
+  GunAudioType: 1
+  GunAudioName: Winchester_Audio
+  WeaponPos: {x: -0.1, y: -2}
+  Damage: 3
+  FireRate: 3

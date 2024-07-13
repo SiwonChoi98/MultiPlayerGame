@@ -9,21 +9,37 @@ public enum GunDataType
     SHOTGUN_DATA
 }
 
+public enum GunSpriteType
+{
+    SEMIAUTORIFLE_SPRITE,
+    WINCHESTER_SPRITE,
+    SHOTGUN_SPRITE
+}
+
+public enum GunAudioType
+{
+    SEMIAUTORIFLE_AUDIO,
+    WINCHESTER_AUDIO,
+    SHOTGUN_AUDIO
+}
 public enum PoolObjectType
 {
-    SEMIAUTO_VFX,
+    SEMIAUTORIFLE_VFX,
     WINCHESTER_VFX,
     SHOTGUN_VFX,
     
     HEALTH_ITEM,
     
-    GUN
+    SEMIAUTO_ITEM,
+    WINCHESTER_ITEM,
+    SHOTGUN_ITEM,
 }
 
 public enum StatType
 {
     HEALTH,
 }
+
 
 
 

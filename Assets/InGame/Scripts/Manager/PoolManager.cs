@@ -45,18 +45,16 @@ public class PoolManager : Singleton<PoolManager>
     {
         if (PoolDictionary.ContainsKey(poolObjectType))
         {
-            poolObject.gameObject.SetActive(false);
             EnqueuePoolObject(poolObjectType, poolObject);
         }
         else
         {
             // 키가 없는 경우 새로운 큐를 만들어 추가
             PoolDictionary[poolObjectType] = new Queue<BasePoolObject>();
-            poolObject.gameObject.SetActive(false);
             EnqueuePoolObject(poolObjectType, poolObject);
         }
-        
-        NetworkServer.Destroy(poolObject.gameObject);
+        poolObject.gameObject.SetActive(false);
+        //NetworkServer.Destroy(poolObject.gameObject);
     }
     
     //private---------------------------------------------------
@@ -64,6 +62,7 @@ public class PoolManager : Singleton<PoolManager>
     private BasePoolObject CreatePoolObject(BasePoolObject poolObject, Transform pos)
     {
         BasePoolObject obj = Instantiate(poolObject, pos.position, pos.rotation);
+        //NetworkServer.Spawn(obj.gameObject);
         return obj;
     }
     

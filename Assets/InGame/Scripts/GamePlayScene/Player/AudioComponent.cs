@@ -57,8 +57,11 @@ public class AudioComponent : NetworkBehaviour
         
     }
 
-    public void PlayAudioOneShot(AudioClip audioClip)
+    public void PlayAudioOneShot(AudioClip audioClip = null)
     {
+        if (audioClip == null)
+            return;
+        
         _currentAudioClip = audioClip;
         
         if (isLocalPlayer)

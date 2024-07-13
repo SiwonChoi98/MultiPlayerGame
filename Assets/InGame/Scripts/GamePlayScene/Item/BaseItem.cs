@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,38 +7,46 @@ using Mirror;
 public class BaseItem : BasePoolObject
 {
     [Server]
-    protected virtual void Server_FunctionToItem(StatusComponent target)
+    protected virtual void Server_PickupItem(StatusComponent target)
     {
     }
 
     [Command]
-    private void CmdFunctionToItem(StatusComponent target)
+    private void CmdPickupItem(StatusComponent target)
     {
-        FunctionToItem(target);
+        PickupItem(target);
     }
     
-    protected void FunctionToItem(StatusComponent target)
+    protected void PickupItem(StatusComponent target)
     {
-        if (target.isServer)
-        {
-            Server_FunctionToItem(target);
-        }
+        if (target == null)
+            return;
         
-        if (!target.isServer && target.isOwned)
+        /*if (target.isServer)
+        {*/
+            Server_PickupItem(target);
+            
+            NetworkServer.UnSpawn(gameObject);
+            ReturnToPool();  
+        //}
+        
+        /*if (!target.isServer && target.isOwned) //
         {
-            CmdFunctionToItem(target);
-        }
+            CmdPickupItem(target);
+        }*/
     }
     
+
     protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             var target = other.GetComponent<StatusComponent>();
-            
-            FunctionToItem(target);
-            
-            ReturnToPool();
+
+            if (target.isServer)
+            {
+                PickupItem(target);   
+            }
         }
     }
 }

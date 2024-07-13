@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec5d7f5bf845b044a135db9e9b53d25, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
-  Name: Shotgun
   GunDataType: 2
-  WeaponSprite: {fileID: 620320419, guid: 3248a736713c78846bef4364d8ffd792, type: 3}
-  WeaponPos: {x: -0.1, y: -0.4}
+  VfxObjectType: 2
+  VfxObjectName: ShotGun_Vfx
+  GunSpriteType: 2
+  GunSpriteName: Weapons_4
+  GunAudioType: 2
+  GunAudioName: ShotGun_Audio
+  WeaponPos: {x: -0.1, y: -1.8}
+  Damage: 2
+  FireRate: 1.5

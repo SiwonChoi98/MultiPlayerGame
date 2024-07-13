@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GamePlayerController : NetworkBehaviour
@@ -12,11 +13,6 @@ public class GamePlayerController : NetworkBehaviour
     private StatusComponent _statusComponent;
     
     [SerializeField] private Camera _playerCamera;
-    
-    //Move Audio
-    private bool isMoving = false;
-    private float lastMoveTime = 0f;
-    private float moveAudioCooldown = 0.3f; // 오디오 재생 간격
     
     #region UnityMethod
 
@@ -52,6 +48,7 @@ public class GamePlayerController : NetworkBehaviour
         
         Move();
         Rotate();
+        
     }
     
 
@@ -72,8 +69,10 @@ public class GamePlayerController : NetworkBehaviour
     //무기 장착
     private void EquipWeapon()
     {
-        Weapon weapon = GetComponentInChildren<WeaponInventory>().Weapons[0];    
-        _combatComponent.EquipWeapon(weapon);
+        if (_combatComponent == null)
+            return;
+        
+        _combatComponent.EquipWeaponData(GunDataType.WINCHESTER_DATA);
     }
     
     //플레이어 이동
@@ -85,21 +84,6 @@ public class GamePlayerController : NetworkBehaviour
         Vector2 dir = new Vector2(inputX, inputY);
         
         _moveComponent.Move(dir);
-
-        //if (dir != Vector2.zero)
-        //{
-        //    if (!isMoving || Time.time - lastMoveTime > moveAudioCooldown)
-        //    {
-        //        _audioComponent.PlayAudioOneShot(_moveComponent.MoveAudioClip);
-        //        lastMoveTime = Time.time;
-        //    }
-        //    isMoving = true;
-        //}
-        //else
-        //{
-        //    isMoving = false;
-        //}
-        
     }
 
     //총알 발사
@@ -107,12 +91,7 @@ public class GamePlayerController : NetworkBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            // if can fire ?
-            //_combetComponent.CmdFire();
             _combatComponent.Fire();
-
-            // PlayFireAudio
-            // SpawnFireVFX
         }
     }
 
