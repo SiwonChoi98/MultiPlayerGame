@@ -13,6 +13,7 @@ public class GamePlayerController : NetworkBehaviour
     private StatusComponent _statusComponent;
     
     [SerializeField] private Camera _playerCamera;
+    [SerializeField] private Camera _minimapCamera;
     
     #region UnityMethod
 
@@ -21,29 +22,30 @@ public class GamePlayerController : NetworkBehaviour
         InitComponent();
     }
 
-    private void Start()
+    public override void OnStartServer() 
     {
         EquipWeapon();
+        BattleManager.Instance.Server_AddManagedPlayer(gameObject);
+    }
+
+    public override void OnStartClient()
+    {
         OnStartSpawnPlayerCamera();
+        GetStartPosition();
     }
 
     private void Update()
     {
-        if (!isLocalPlayer)
-            return;
-        
-        if (_statusComponent.CurrentHealth <= 0)
+        if (!CheckInput())
             return;
         
         Fire();
+        InputShowRankUI();
     }
 
     private void FixedUpdate()
     {
-        if (!isLocalPlayer)
-            return;
-
-        if (_statusComponent.CurrentHealth <= 0)
+        if (!CheckInput())
             return;
         
         Move();
@@ -109,12 +111,52 @@ public class GamePlayerController : NetworkBehaviour
     private void OnStartSpawnPlayerCamera()
     {
         Camera playerCamera = Instantiate(_playerCamera);
-        playerCamera.GetComponent<PlayerCamera>().SetTarget(gameObject.transform);
+        playerCamera.GetComponent<TargetCamera>().SetTarget(gameObject.transform);
+
+        Camera minimapCamera = Instantiate(_minimapCamera);
+        minimapCamera.GetComponent<TargetCamera>().SetTarget(gameObject.transform);
         
         //로컬 플레이어 일때만 활성화
-        if (!isLocalPlayer) playerCamera.gameObject.SetActive(false);
-        else playerCamera.gameObject.SetActive(true); 
+        if (!isLocalPlayer)
+        {
+            playerCamera.gameObject.SetActive(false);
+            minimapCamera.gameObject.SetActive(false);
+        }
+        else
+        {
+            playerCamera.gameObject.SetActive(true);
+            minimapCamera.gameObject.SetActive(true);
+        } 
         
     }
-    
+
+    private void InputShowRankUI()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            GamePlayUI.Instance.ShowRankUI();
+        }
+    }
+
+    private void GetStartPosition()
+    {
+        transform.position = BattleManager.Instance.GetSpawnRandomPosition(SpawnPostionType.PLAYER, netId);
+    }
+
+    private bool CheckInput()
+    {
+        if (BattleManager.Instance != null)
+        {
+            if (BattleManager.Instance.IsEnd)
+                return false;
+        }
+            
+        if(!isLocalPlayer)
+            return false;
+        
+        if(_statusComponent.IsDead)
+            return false;
+
+        return true;
+    }
 }

@@ -5,11 +5,30 @@ using UnityEngine;
 
 public abstract class BasePoolObject : NetworkBehaviour
 {
-    protected PoolObjectType _poolObjectType;
-
-    public void InitType(PoolObjectType poolObjectType)
+    [SerializeField] protected PoolObjectType _poolObjectType;
+    [SerializeField] protected int _spawnPosIndex;
+    
+    public void InitObjectType(PoolObjectType poolObjectType)
     {
-        this._poolObjectType = poolObjectType;
+        _poolObjectType = poolObjectType;
+    }
+
+    [Server]
+    public PoolObjectType Server_GetObjectType()
+    {
+        return _poolObjectType;
+    }
+
+    [Server]
+    public void Server_SetSpawnPosIndex(int spawnPosIndex)
+    {
+        _spawnPosIndex = spawnPosIndex;
+    }
+    
+    [Server]
+    public int Server_GetSpawnPosIndex()
+    {
+        return _spawnPosIndex;
     }
     
     protected void ReturnToPool()

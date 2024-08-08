@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class BT_Task_Wait : Action
 {
-    private float _distance = 5f;
+    //타겟 추적 거리
+    private float _targetChaseDistance = 6f;
     public float _waitTime = 5f;
     
     public Transform closestTarget;
@@ -15,9 +16,6 @@ public class BT_Task_Wait : Action
     public override void OnStart()
     {
         _waitTime = 5f;
-        
-        BehaviorTree behaviorTree = GetComponent<BehaviorTree>();
-        SharedTransformList = behaviorTree.GetVariable("TreeTargets") as SharedTransformList;
     }
     public override TaskStatus OnUpdate()
     {
@@ -27,7 +25,7 @@ public class BT_Task_Wait : Action
         {
             float distance = Vector3.Distance(closestTarget.position, transform.position);
         
-            if (distance <= _distance)
+            if (distance <= _targetChaseDistance)
             {
                 return TaskStatus.Failure;
             }
@@ -46,7 +44,6 @@ public class BT_Task_Wait : Action
     private void FindTarget()
     {
         float closestDistance = float.MaxValue;
-        bool isSuccess = false;
         foreach (var PlayerController in SharedTransformList.Value)
         {
             Vector3 playerPosition = PlayerController.transform.position;
@@ -54,7 +51,7 @@ public class BT_Task_Wait : Action
 
             float distance = Vector3.Distance(playerPosition, thisPosition);
             closestDistance = Mathf.Min(closestDistance, distance);
-            if (distance <= _distance)
+            if (distance <= _targetChaseDistance)
             {
                 closestTarget = PlayerController.transform;
             }

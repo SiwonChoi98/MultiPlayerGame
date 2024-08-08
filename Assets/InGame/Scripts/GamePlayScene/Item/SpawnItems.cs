@@ -6,30 +6,46 @@ using UnityEngine.Serialization;
 
 public class SpawnItems : MonoBehaviour
 {
-    [SerializeField] private List<BaseItem> _healthPotionItemList;
-    public List<BaseItem> GunItemList;
+    [SerializeField] private List<BaseItem> _nonWeaponItemList;
+    public List<BaseItem> WeaponItemList;
     
-    public void Server_SpawnHealthItem()
+    public BasePoolObject Server_SpawnHealthItem(Vector3 pos)
     {
-        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.HEALTH_ITEM, _healthPotionItemList[0], transform);
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.HEALTH_ITEM, _nonWeaponItemList[0], pos, Quaternion.identity);
         if (basePoolObject != null)
         {
             NetworkServer.Spawn(basePoolObject.gameObject);
-            basePoolObject.InitType(PoolObjectType.HEALTH_ITEM);
+            basePoolObject.InitObjectType(PoolObjectType.HEALTH_ITEM);
         }
+
+        return basePoolObject;
     }
 
-    public void Server_SpawnGunItem(int curIndex)
+    public BasePoolObject Server_SpawnAddScoreItem(Vector3 pos)
+    {
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.ADDSCORE_ITEM, _nonWeaponItemList[1], pos, Quaternion.identity);
+        if (basePoolObject != null)
+        {
+            NetworkServer.Spawn(basePoolObject.gameObject);
+            basePoolObject.InitObjectType(PoolObjectType.ADDSCORE_ITEM);
+        }
+
+        return basePoolObject;
+    }
+    
+    public BasePoolObject Server_SpawnGunItem(int curIndex, Vector3 pos)
     {
         BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(GetPoolObjectType(curIndex),
-            GunItemList[curIndex], transform);
+            WeaponItemList[curIndex], pos, Quaternion.identity);
 
         if (basePoolObject != null)
         {
             NetworkServer.Spawn(basePoolObject.gameObject);
-            basePoolObject.InitType(GetPoolObjectType(curIndex));
+            basePoolObject.InitObjectType(GetPoolObjectType(curIndex));
 
         }
+
+        return basePoolObject;
     }
     
     private PoolObjectType GetPoolObjectType(int index)

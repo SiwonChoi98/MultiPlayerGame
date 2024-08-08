@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Unity.VisualScripting;
+
+
 public class MoveComponent : NetworkBehaviour
 {
     private Rigidbody2D _rigidbody2D;
@@ -19,16 +20,14 @@ public class MoveComponent : NetworkBehaviour
     
     [SyncVar]
     [SerializeField] private float _speed;
+    
+    //private float _resurrectionRadius = 20.0f;
     private void Awake()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _audioComponent = GetComponentInChildren<AudioComponent>();
+        _audioComponent = GetComponent<AudioComponent>();
     }
-
-    private void Start()
-    {
-        //Server_InitSpeed(GameSettings.InitPlayerMoveSpeed);
-    }
+    
 
     [Server]
     private void Server_InitSpeed(float speed)
@@ -36,17 +35,6 @@ public class MoveComponent : NetworkBehaviour
         if (isServer)
         {
             _speed = speed;
-        }
-    }
-
-    
-    //AI
-    [Server]
-    public void Server_Move(Vector2 dir)
-    {
-        if (isServer)
-        {
-            Move(dir);    
         }
     }
     
@@ -75,13 +63,67 @@ public class MoveComponent : NetworkBehaviour
             // 발자국 소리를 soundNum 번 재생
             for (int i = 0; i < soundNum; i++)
             {
-                _audioComponent.PlayAudioOneShot(_moveAudioClipList[_moveClipIndex]);
+                if (isLocalPlayer)
+                {
+                    PlayMoveSound(_moveClipIndex);
+                }
+                
+                if (!isServer)
+                {
+                    CmdPlayMoveSound(_moveClipIndex);
+                }
+                else if (isServer)
+                {
+                    RpcPlayMoveSound(_moveClipIndex);
+                }
+                
                 _moveClipIndex++;
 
                 if (_moveAudioClipList.Count-1 < _moveClipIndex)
                     _moveClipIndex = 0;
             }
         }
+    }
+
+    [Command]
+    private void CmdPlayMoveSound(int clipIndex)
+    {
+        RpcPlayMoveSound(clipIndex);
+    }
+    
+    [ClientRpc]
+    private void RpcPlayMoveSound(int clipIndex)
+    {
+        if (isOwned)
+            return;
+        PlayMoveSound(clipIndex);
+    }
+
+    private void PlayMoveSound(int clipIndex)
+    {
+        _audioComponent.PlayAudioOneShot(_moveAudioClipList[clipIndex]);
+    }
+    [Server]
+    public void Server_GetResurrectionPosition()
+    {
+        if (!isServer)
+            return;
+        
+        Vector3 newPosition = BattleManager.Instance.GetSpawnRandomPosition(SpawnPostionType.PLAYER, netId);
+        transform.position = newPosition;
+
+        // 클라이언트에 위치 변경을 알림
+        RpcUpdatePosition(newPosition);
+    }
+
+    [ClientRpc]
+    private void RpcUpdatePosition(Vector3 newPosition)
+    {
+        if (isServer) return;
+
+        if (!isLocalPlayer) return;
+        
+        transform.position = newPosition;
     }
     
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Scriptable Object Asset/WeaponData")]
@@ -24,5 +25,7 @@ public class WeaponData_ScriptableObject : ScriptableObject
 
 
     public int Damage;
-    public float FireRate;
+    public float FireLoadingRate; //장전 쿨타임
+    public int BulletCount; //총알 갯수
+
 }

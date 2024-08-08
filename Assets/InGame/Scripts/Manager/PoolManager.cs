@@ -14,7 +14,7 @@ public class PoolManager : Singleton<PoolManager>
     //public-----------------------------------------------------------------------
     
     //생성
-    public BasePoolObject SpawnFromPool(PoolObjectType poolObjectType, BasePoolObject poolObject, Transform pos)
+    public BasePoolObject SpawnFromPool(PoolObjectType poolObjectType, BasePoolObject poolObject, Vector3 position, Quaternion rotation)
     {
         if (PoolDictionary.TryGetValue(poolObjectType, out Queue<BasePoolObject> queue))
         {
@@ -24,19 +24,19 @@ public class PoolManager : Singleton<PoolManager>
                 
                 poolObj.gameObject.SetActive(true);
                 
-                poolObj.transform.position = pos.transform.position;
-                poolObj.transform.rotation = pos.transform.rotation;
+                poolObj.transform.position = position;
+                poolObj.transform.rotation = rotation;
                 
                 return poolObj;
             }
             else
             {
-                return CreatePoolObject(poolObject, pos);   
+                return CreatePoolObject(poolObject, position, rotation);   
             }
         }
         else
         {
-            return CreatePoolObject(poolObject, pos);
+            return CreatePoolObject(poolObject, position, rotation);
         }
     }
 
@@ -54,15 +54,13 @@ public class PoolManager : Singleton<PoolManager>
             EnqueuePoolObject(poolObjectType, poolObject);
         }
         poolObject.gameObject.SetActive(false);
-        //NetworkServer.Destroy(poolObject.gameObject);
     }
     
     //private---------------------------------------------------
     
-    private BasePoolObject CreatePoolObject(BasePoolObject poolObject, Transform pos)
+    private BasePoolObject CreatePoolObject(BasePoolObject poolObject, Vector3 pos, Quaternion rotation)
     {
-        BasePoolObject obj = Instantiate(poolObject, pos.position, pos.rotation);
-        //NetworkServer.Spawn(obj.gameObject);
+        BasePoolObject obj = Instantiate(poolObject, pos, rotation);
         return obj;
     }
     

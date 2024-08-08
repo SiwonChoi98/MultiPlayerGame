@@ -51,6 +51,8 @@ MonoBehaviour:
   showRoomGUI: 1
   readyToBegin: 0
   index: 0
+  _userColor: {r: 1, g: 1, b: 1, a: 1}
+  _userName: 
 --- !u!114 &5431312971853015682
 MonoBehaviour:
   m_ObjectHideFlags: 0

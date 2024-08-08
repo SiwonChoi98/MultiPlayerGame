@@ -4,7 +4,7 @@ public class DontDestroyObject : Singleton<DontDestroyObject>
 {
     [SerializeField] private bool _addComponent = true;
     
-    protected void Awake()
+    protected override void Awake()
     {
         base.Awake();
         InitManager();

@@ -15,4 +15,12 @@ public class PlayerSettings
 public class GameSettings
 {
     public static float InitPlayerMoveSpeed = 2f;
+
+    public static float InGameItemSpawnTime = 5f;
+    
+    /// <summary>
+    // InGameDeadTime과 WInGameDeadTime 동일해야함
+    /// </summary>
+    public static WaitForSeconds WInGameDeadTime = new WaitForSeconds(3f);
+    public static float InGameDeadTime = 3f;
 }

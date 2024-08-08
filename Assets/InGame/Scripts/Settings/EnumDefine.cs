@@ -29,15 +29,27 @@ public enum PoolObjectType
     SHOTGUN_VFX,
     
     HEALTH_ITEM,
+    ADDSCORE_ITEM,
     
     SEMIAUTO_ITEM,
     WINCHESTER_ITEM,
     SHOTGUN_ITEM,
+    
+    AI,
 }
 
 public enum StatType
 {
     HEALTH,
+    BULLET,
+    COMBAT,
+    DEAD,
+}
+
+public enum SpawnPostionType
+{
+    PLAYER,
+    ITEM,
 }
 
 

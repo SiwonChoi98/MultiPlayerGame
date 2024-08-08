@@ -20,5 +20,6 @@ MonoBehaviour:
   GunAudioType: 1
   GunAudioName: Winchester_Audio
   WeaponPos: {x: -0.1, y: -2}
-  Damage: 3
-  FireRate: 3
+  Damage: 20
+  FireLoadingRate: 3.5
+  BulletCount: 3

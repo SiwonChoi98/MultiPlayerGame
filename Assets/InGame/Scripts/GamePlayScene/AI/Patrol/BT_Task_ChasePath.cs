@@ -4,37 +4,39 @@ using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BT_Task_ChasePath : Action
 {
     public SharedVector3 closestPath;
     public SharedTransformList SharedTransformList;
     public Transform closestTarget;
+
+    public SharedBool IsNotFindTarget;
     
-    private float _distance = 5f;
+    private float _notFindTargetTime;
     
-    private float _successRange = 0.2f; //성공 범위
-    private MoveComponent _moveComponent;
+    //타겟 추적 거리
+    private float _targetChaseDistance = 6f;
+    //이동 성공 범위
+    private float _successRange = 0.2f; 
     
+    private AgentMovement _agentMovement;
     
     public override void OnStart()
     {
-        BehaviorTree behaviorTree = GetComponent<BehaviorTree>();
-        closestPath = behaviorTree.GetVariable("TreeRandomPath") as SharedVector3;
-        SharedTransformList = behaviorTree.GetVariable("TreeTargets") as SharedTransformList;
+        _agentMovement = GetComponent<AgentMovement>();
+        _agentMovement.SetPlayPosition();
         
-        _moveComponent = GetComponent<MoveComponent>();
+        _notFindTargetTime = 5f;
     }
 
     public override TaskStatus OnUpdate()
     {
         if (closestPath == null)
             return TaskStatus.Failure;
-
         
-        Vector2 dirVec = closestPath.Value - transform.position;
-        _moveComponent.Server_Move(dirVec);
-        
+        _agentMovement.SetAgentPosition(closestPath.Value);
 
         float pathDistance = Vector2.Distance(transform.position, closestPath.Value);
         
@@ -46,22 +48,23 @@ public class BT_Task_ChasePath : Action
 
         //타겟 찾아서 해당 거리안에 들어오면 실패 취급
         FindTarget();
-        if (closestTarget != null)
+        NotFindTargetTimeCalculate();
+        if (closestTarget != null && !IsNotFindTarget.Value)
         {
             float distance = Vector3.Distance(closestTarget.position, transform.position);
         
-            if (distance <= _distance)
+            if (distance <= _targetChaseDistance)
             {
                 return TaskStatus.Failure;
             }
         }
+        
         return TaskStatus.Running;
     }
 
     private void FindTarget()
     {
         float closestDistance = float.MaxValue;
-        bool isSuccess = false;
         foreach (var PlayerController in SharedTransformList.Value)
         {
             Vector3 playerPosition = PlayerController.transform.position;
@@ -69,9 +72,21 @@ public class BT_Task_ChasePath : Action
 
             float distance = Vector3.Distance(playerPosition, thisPosition);
             closestDistance = Mathf.Min(closestDistance, distance);
-            if (distance <= _distance)
+            if (distance <= _targetChaseDistance)
             {
                 closestTarget = PlayerController.transform;
+            }
+        }
+    }
+
+    private void NotFindTargetTimeCalculate()
+    {
+        if (IsNotFindTarget.Value)
+        {
+            _notFindTargetTime -= Time.deltaTime;
+            if (_notFindTargetTime < 0)
+            {
+                IsNotFindTarget.Value = false;
             }
         }
     }

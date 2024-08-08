@@ -6,16 +6,11 @@ using UnityEngine;
 
 public class AudioComponent : NetworkBehaviour
 {
-    private AudioSource _audioSource;
+    [SerializeField] private AudioSource _audioSource;
 
     [SerializeField] private AudioClip _currentAudioClip; 
     
     [SerializeField] private bool isPerspective; //원근감 결정 bool
-
-    private void Awake()
-    {
-        _audioSource = GetComponent<AudioSource>();
-    }
 
     private void Start()
     {
@@ -63,41 +58,7 @@ public class AudioComponent : NetworkBehaviour
             return;
         
         _currentAudioClip = audioClip;
-        
-        if (isLocalPlayer)
-        {
-            PlayOneShot(_currentAudioClip);
-        }
-
-        if (isServer)
-        {
-            RpcPlayOneShot(true);
-        }
-        
-        if(isOwned && !isServer)
-        {
-            CmdPlayAudioOneShot();
-        }
+        _audioSource.PlayOneShot(_currentAudioClip);
     }
     
-    [Command]
-    private void CmdPlayAudioOneShot()
-    {
-        PlayAudioOneShot(_currentAudioClip);
-    }
-    private void PlayOneShot(AudioClip audioClip)
-    {
-        _audioSource.PlayOneShot(audioClip);
-    }
-
-    [ClientRpc]
-    private void RpcPlayOneShot(bool bIsPredict)
-    {
-        if (bIsPredict && isOwned)
-        {
-            return;
-        }
-
-        PlayOneShot(_currentAudioClip);
-    }
 }

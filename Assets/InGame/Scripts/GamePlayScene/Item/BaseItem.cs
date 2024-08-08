@@ -10,33 +10,23 @@ public class BaseItem : BasePoolObject
     protected virtual void Server_PickupItem(StatusComponent target)
     {
     }
-
-    [Command]
-    private void CmdPickupItem(StatusComponent target)
-    {
-        PickupItem(target);
-    }
     
+    [Server]
     protected void PickupItem(StatusComponent target)
     {
         if (target == null)
             return;
         
-        /*if (target.isServer)
-        {*/
-            Server_PickupItem(target);
-            
-            NetworkServer.UnSpawn(gameObject);
-            ReturnToPool();  
-        //}
+        Server_PickupItem(target);
         
-        /*if (!target.isServer && target.isOwned) //
-        {
-            CmdPickupItem(target);
-        }*/
+        //Item PickUp시 스폰 위치 정상화
+        //BattleManager.Instance.Server_SetTuple(BattleManager.Instance.SpawnItemPosList, _spawnPosIndex, true);
+        
+        NetworkServer.UnSpawn(gameObject);
+        ReturnToPool();  
+        
     }
     
-
     protected void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
