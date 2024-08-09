@@ -55,5 +55,8 @@ Suv : Github
 
 
 ##### 커밋 내역
+현재까지의 커밋 내역이며 계속 보강하면서 올릴 예정!!
+![2](https://github.com/user-attachments/assets/e68a8d79-552e-4275-a3b8-5717287641f1)
+![1](https://github.com/user-attachments/assets/cd9f3625-2620-4da5-9ea5-0d7253e8b65e)
 <img width="695" alt="1" src="https://github.com/SiwonChoi98/MultiPlayerGame/assets/118884862/a98f73bd-2346-4f58-a752-f93ef80b7498">
 <img width="694" alt="2" src="https://github.com/SiwonChoi98/MultiPlayerGame/assets/118884862/65fe1e60-f18f-472f-8758-2c556067bb81">
