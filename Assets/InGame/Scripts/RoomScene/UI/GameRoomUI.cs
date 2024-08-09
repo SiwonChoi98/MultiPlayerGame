@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class GameRoomUI : MonoBehaviour
 {
     [SerializeField] private InputField _selectUserNameInput;
-
+    [SerializeField] private List<RectTransform> _colorButtonPos;
+    [SerializeField] private Image _selectColorImage;
     public void Btn_SelectUserName()
     {
         var manager = NetworkRoomManager.singleton as NetworkRoomManager;
@@ -32,5 +33,7 @@ public class GameRoomUI : MonoBehaviour
                 manager.roomSlots[i].GetComponent<RoomPlayer>().CmdSetUserColor(color);
             }
         }
+
+        _selectColorImage.transform.position = _colorButtonPos[color].transform.position;
     }
 }
