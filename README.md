@@ -6,6 +6,9 @@
 ![4](https://github.com/user-attachments/assets/e6815b02-0ebe-4365-90c0-d4aed4650233)
 ![5](https://github.com/user-attachments/assets/c5ac49c7-92aa-4bd8-a200-f6e14ae56a81)
 
+##### 플레이 영상 
+
+[ https://www.youtube.com/watch?v=g7HYcXvn8oQ ]
 
 ##### 게임 설명
 ![1](https://github.com/user-attachments/assets/3fc05c32-5a47-4cd0-933e-b29d2cd7486e)
