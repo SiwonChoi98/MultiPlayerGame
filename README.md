@@ -1,11 +1,11 @@
 # MultiPlayerGame
 
-<img width="574" alt="1" src="https://github.com/user-attachments/assets/e2ef060f-85c5-468c-8498-06d29063a9ed">
-<img width="1025" alt="2" src="https://github.com/user-attachments/assets/62a1a574-8f89-4e4e-90ab-5ae2d36eb711">
-<img width="1021" alt="3" src="https://github.com/user-attachments/assets/995aa026-623f-466b-800f-1cc8e1640b6e">
-<img width="1022" alt="4" src="https://github.com/user-attachments/assets/d2f30ccd-5882-4975-9588-9c3fed8874bb">
-<img width="1024" alt="5" src="https://github.com/user-attachments/assets/9510d44e-35f4-42ec-b951-6e73ddd2724f">
-<img width="1021" alt="6" src="https://github.com/user-attachments/assets/ce0b8bc4-db8a-455a-8bc4-b48a6b56bcec">
+![1](https://github.com/user-attachments/assets/d52e13e0-8bde-4b72-9e39-3d1d1425dc48)
+![2](https://github.com/user-attachments/assets/66cdfd72-0252-4c16-ab05-f2ec86aa20fd)
+![3](https://github.com/user-attachments/assets/d2b9167a-913d-400a-a286-035634704859)
+![4](https://github.com/user-attachments/assets/e6815b02-0ebe-4365-90c0-d4aed4650233)
+![5](https://github.com/user-attachments/assets/c5ac49c7-92aa-4bd8-a200-f6e14ae56a81)
+
 
 ##### 게임 설명
 ![1](https://github.com/user-attachments/assets/3fc05c32-5a47-4cd0-933e-b29d2cd7486e)
