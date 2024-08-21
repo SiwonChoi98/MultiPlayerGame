@@ -149,7 +149,7 @@ namespace Mirror
 
         public virtual void DrawPlayerReadyState()
         {
-            GUILayout.BeginArea(new Rect(475f, 200 + (index * 100f), 150F, 130f));
+            //GUILayout.BeginArea(new Rect(475f, 200 + (index * 100f), 150F, 130f));
             
             //GUILayout.Label($"Player [{index + 1}]");
 

@@ -18,15 +18,7 @@ public class RoomPlayer : NetworkRoomPlayer
    [SyncVar]
    [SerializeField] private string _userName;
    public string UserName => _userName;
-
-   public override void Start()
-   {
-      base.Start();
-      if (isLocalPlayer)
-      {
-         GameRoomUI.Instance.AddLocalRoomPlayer(this);
-      }
-   }
+   
    [Command]
    public void CmdSetUserName(string name)
    {
@@ -56,30 +48,35 @@ public class RoomPlayer : NetworkRoomPlayer
    
    public override void DrawPlayerReadyState()
    {
-      base.DrawPlayerReadyState();
-
-      if (isLocalPlayer)
-      {
-         GUILayout.Label(_userName + " - LOCAL PLAYER -");
-      }
-      else
-      {
-         GUILayout.Label(_userName);
-      }
-      
-      if (readyToBegin)
-         GUILayout.Label("READY");
-      else
-         GUILayout.Label("NOT READY");
-
       if (((isServer && index > 0) || isServerOnly) && GUILayout.Button("REMOVE"))
       {
-         // This button only shows on the Host for all players other than the Host
-         // Host and Players can't remove themselves (stop the client instead)
-         // Host can kick a Player this way.
          GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
       }
+   }
+   
+   public override void OnGUI()
+   {
+      if (!showRoomGUI)
+         return;
+
+      NetworkRoomManager room = NetworkManager.singleton as NetworkRoomManager;
+      if (room)
+      {
+         if (!room.showRoomGUI)
+            return;
+
+         if (!Utils.IsSceneActive(room.RoomScene))
+            return;
+
+         if (isLocalPlayer)
+         {
+            GameRoomUI.Instance.AddLocalRoomPlayer(this);
+         }
+         
+         DrawPlayerReadyState();
+         
+         GameRoomUI.Instance.SetUserItemList(index, _userName, readyToBegin, isLocalPlayer);
+      }
       
-      GUILayout.EndArea();
    }
 }

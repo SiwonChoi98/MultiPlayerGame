@@ -87,7 +87,7 @@ public class CombatComponent : NetworkBehaviour
             RpcPlayFireAudio(true);
             RpcSpawnFireVFX(true);
 
-            Server_HitCheck();
+            Server_HitCheck(_fireDistance);
             
             UseBullet();
             
@@ -219,10 +219,10 @@ public class CombatComponent : NetworkBehaviour
     }
     
     [Server]
-    public void Server_HitCheck()
+    public void Server_HitCheck(float fireDistance)
     {
-        Debug.DrawRay(_firePos.position, _firePos.right * _fireDistance, Color.red, 2f);
-        RaycastHit2D hit = Physics2D.Raycast(_firePos.position, _firePos.right, _fireDistance);
+        Debug.DrawRay(_firePos.position, _firePos.right * fireDistance, Color.red, 2f);
+        RaycastHit2D hit = Physics2D.Raycast(_firePos.position, _firePos.right, fireDistance);
 
         if (!hit)
             return;

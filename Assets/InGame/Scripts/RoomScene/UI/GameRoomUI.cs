@@ -14,7 +14,9 @@ public class GameRoomUI : Singleton<GameRoomUI>
     [SerializeField] private List<RectTransform> _weaponButtonPos;
     [SerializeField] private Image _selectWeaponImage;
 
+    [Header("User")]
     [SerializeField] private RoomPlayer _localRoomPlayer;
+    [SerializeField] private List<RoomUserInfoItem> _userItemList;
     private void Start()
     {
         SoundManager.Instance.PlayBGM(AudioType.LOBBY_BGM, 0.2f, true);
@@ -70,6 +72,15 @@ public class GameRoomUI : Singleton<GameRoomUI>
 
     public void Btn_Ready()
     {
+        if (!_localRoomPlayer)
+            return;
+        
         _localRoomPlayer.DrawPlayerReadyButton();
+    }
+
+    public void SetUserItemList(int index, string name, bool state, bool isLocalPlayer)
+    {
+        _userItemList[index].gameObject.SetActive(true);
+        _userItemList[index].SetPlayerInfo(name, state, isLocalPlayer);
     }
 }

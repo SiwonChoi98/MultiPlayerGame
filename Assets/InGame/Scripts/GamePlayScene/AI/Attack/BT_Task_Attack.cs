@@ -31,7 +31,7 @@ public class BT_Task_Attack : Action
         if (IsPatrol.Value == true)
             return TaskStatus.Failure;
         
-        _combatComponent.Server_HitCheck();
+        _combatComponent.Server_HitCheck(4f);
         
         IsPatrol.Value = false;
         if (_combatComponent.IsWall)
