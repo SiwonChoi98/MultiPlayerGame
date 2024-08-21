@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameRoomUI : MonoBehaviour
+public class GameRoomUI : Singleton<GameRoomUI>
 {
     [SerializeField] private InputField _selectUserNameInput;
     
@@ -13,7 +13,8 @@ public class GameRoomUI : MonoBehaviour
 
     [SerializeField] private List<RectTransform> _weaponButtonPos;
     [SerializeField] private Image _selectWeaponImage;
-    
+
+    [SerializeField] private RoomPlayer _localRoomPlayer;
     private void Start()
     {
         SoundManager.Instance.PlayBGM(AudioType.LOBBY_BGM, 0.2f, true);
@@ -60,5 +61,15 @@ public class GameRoomUI : MonoBehaviour
         }
 
         _selectWeaponImage.transform.position = _weaponButtonPos[index].transform.position;
+    }
+
+    public void AddLocalRoomPlayer(RoomPlayer roomPlayer)
+    {
+        _localRoomPlayer = roomPlayer;
+    }
+
+    public void Btn_Ready()
+    {
+        _localRoomPlayer.DrawPlayerReadyButton();
     }
 }

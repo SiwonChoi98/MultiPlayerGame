@@ -531,7 +531,6 @@ public class BattleManager : NetworkBehaviour
     public void Server_PlayerDead(uint netId)
     {
         NetworkIdentity networkIdentity = Server_FindPlayer(netId);
-        
         if (networkIdentity)
         {
             StartCoroutine(Server_Resurrection(networkIdentity.gameObject));

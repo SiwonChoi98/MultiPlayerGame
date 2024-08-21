@@ -143,11 +143,6 @@ public class StatusComponent : NetworkBehaviour
     {
         SpawnEffect(PoolObjectType.DEAD_EFFECT);
     }
-
-    public void SpawnDeadEffect()
-    {
-        RpcSpawnDeadEffect();
-    }
     
     [ClientRpc]
     private void RpcSpawnDamageText(int damage)

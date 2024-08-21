@@ -18,7 +18,15 @@ public class RoomPlayer : NetworkRoomPlayer
    [SyncVar]
    [SerializeField] private string _userName;
    public string UserName => _userName;
-   
+
+   public override void Start()
+   {
+      base.Start();
+      if (isLocalPlayer)
+      {
+         GameRoomUI.Instance.AddLocalRoomPlayer(this);
+      }
+   }
    [Command]
    public void CmdSetUserName(string name)
    {
@@ -58,9 +66,6 @@ public class RoomPlayer : NetworkRoomPlayer
       {
          GUILayout.Label(_userName);
       }
-      
-      
-      
       
       if (readyToBegin)
          GUILayout.Label("READY");

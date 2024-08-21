@@ -143,7 +143,7 @@ namespace Mirror
                     return;
 
                 DrawPlayerReadyState();
-                DrawPlayerReadyButton();
+                //DrawPlayerReadyButton();
             }
         }
 
@@ -169,24 +169,24 @@ namespace Mirror
             //GUILayout.EndArea();
         }
 
-        void DrawPlayerReadyButton()
+        public void DrawPlayerReadyButton()
         {
             if (NetworkClient.active && isLocalPlayer)
             {
-                GUILayout.BeginArea(new Rect(450f, 700f, 120f, 200f));
+                //GUILayout.BeginArea(new Rect(450f, 700f, 120f, 200f));
 
                 if (readyToBegin)
                 {
-                    if (GUILayout.Button("Cancel"))
+                    //if (GUILayout.Button("Cancel"))
                         CmdChangeReadyState(false);
                 }
                 else
                 {
-                    if (GUILayout.Button("Ready"))
+                    //if (GUILayout.Button("Ready"))
                         CmdChangeReadyState(true);
                 }
 
-                GUILayout.EndArea();
+                //GUILayout.EndArea();
             }
         }
 
