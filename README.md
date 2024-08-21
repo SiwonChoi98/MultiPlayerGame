@@ -1,7 +1,7 @@
 # MultiPlayerGame
 
 ![1](https://github.com/user-attachments/assets/d52e13e0-8bde-4b72-9e39-3d1d1425dc48)
-![2](https://github.com/user-attachments/assets/66cdfd72-0252-4c16-ab05-f2ec86aa20fd)
+![1](https://github.com/user-attachments/assets/9511edfa-7ca7-4013-8ccb-bfe4caa662ff)
 ![3](https://github.com/user-attachments/assets/d2b9167a-913d-400a-a286-035634704859)
 ![4](https://github.com/user-attachments/assets/e6815b02-0ebe-4365-90c0-d4aed4650233)
 ![5](https://github.com/user-attachments/assets/c5ac49c7-92aa-4bd8-a200-f6e14ae56a81)
