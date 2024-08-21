@@ -10,8 +10,8 @@ public class AddScoreItem : BaseItem
     [Server]
     protected override void Server_PickupItem(StatusComponent target)
     {
-        InGameUserInfo userInfo = target.GetComponent<InGameUserInfo>();
-        userInfo.Server_AddScore(_scoreAmount);
+        BattleManager.Instance.Server_UpdateManagedPlayerScore(target.netId, _scoreAmount);
+        target.AddScoreTargetEffectAndSound(target.netId);
         
         BattleManager.Instance.Server_RemoveManagedItem(this);
     }

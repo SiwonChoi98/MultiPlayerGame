@@ -41,12 +41,13 @@ public class StatusComponent : NetworkBehaviour
     public bool IsAI = false;
     //------------------------------------------------------------------
     
+    [SerializeField] private AudioSource _statusAudioSource;
     public override void OnStartServer() 
     {
         Server_SetHealth(100, 100);
         Server_SetDeadTime(3);
     }
-
+    
     [Server]
     public void Server_SetHealth(int curHealth, int maxHealth)
     {
@@ -81,20 +82,25 @@ public class StatusComponent : NetworkBehaviour
     }
     //공격받기
     [Server]
-    public void Server_TakeDamage(int amount, InGameUserInfo info = null)
+    public void Server_TakeDamage(int amount, uint shotPlayerNetId = 0)
     {
         if (CurrentHealth <= 0)
             return;
         
         CurrentHealth -= amount;
 
-        if (info == null)
+        RpcSpawnDamageText(amount);
+        
+        RpcSpawnHitEffect();
+        RpcPlaySoundHit_OnlyLocalPlayer();
+        
+        if (shotPlayerNetId == 0)
         {
             CheckDead();
         }
         else
         {
-            CheckDead(info);
+            CheckDead(shotPlayerNetId);
         }
     }
     
@@ -106,40 +112,175 @@ public class StatusComponent : NetworkBehaviour
             return;
 
         CurrentHealth += amount;
+        if (CurrentHealth > 100)
+        {
+            CurrentHealth = 100;
+        }
+        
+        RpcSpawnHealthEffect();
+        RpcPlaySoundHealth_OnlyLocalPlayer();
     }
 
-    private void CheckDead(InGameUserInfo info = null)
+    [ClientRpc]
+    private void RpcSpawnHealthEffect()
+    {
+        SpawnEffect(PoolObjectType.HEALTH_PICKUP_EFFECT);
+    }
+    
+    [ClientRpc]
+    private void RpcSpawnHitEffect()
+    {
+        SpawnEffect(PoolObjectType.HIT_EFFECT);
+    }
+    
+    [ClientRpc]
+    private void RpcSpawnResurrectionEffect()
+    {
+        SpawnEffect(PoolObjectType.RESURRECTION_EFFECT);
+    }
+    [ClientRpc]
+    private void RpcSpawnDeadEffect()
+    {
+        SpawnEffect(PoolObjectType.DEAD_EFFECT);
+    }
+
+    public void SpawnDeadEffect()
+    {
+        RpcSpawnDeadEffect();
+    }
+    
+    [ClientRpc]
+    private void RpcSpawnDamageText(int damage)
+    {
+        BasePoolObject text = DataManager.Instance.DamageTextDic[PoolObjectType.DAMAGE_DEFAULT_TEXT];
+        
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.DAMAGE_DEFAULT_TEXT, text,
+            transform.position, Quaternion.identity);
+        basePoolObject.GetComponent<BasePoolObject>().InitObjectType(PoolObjectType.DAMAGE_DEFAULT_TEXT);
+        
+        DamageText damageText = basePoolObject as DamageText;
+        damageText.SetDamage(damage);
+        
+    }
+    private void SpawnEffect(PoolObjectType poolObjectType)
+    {
+        BasePoolObject vfx = DataManager.Instance.EffectVfxDic[poolObjectType];
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(poolObjectType, vfx,
+            transform.position, transform.rotation);
+        
+        basePoolObject.GetComponent<BasePoolObject>().InitObjectType(poolObjectType);
+        
+    }
+    
+    //본인 플레이어만 적용
+    [ClientRpc]
+    private void RpcPlaySoundHit_OnlyLocalPlayer()
+    {
+        if (!isLocalPlayer)
+            return;
+        
+        PlayAudio(PoolObjectType.HIT_SOUND);
+    }
+    
+    [ClientRpc]
+    private void RpcPlaySoundHealth_OnlyLocalPlayer()
+    {
+        if (!isLocalPlayer)
+            return;
+        
+        PlayAudio(PoolObjectType.HEALTH_PICKUP_SOUND);
+    }
+    
+    [ClientRpc]
+    private void RpcPlaySoundResurrection_OnlyLocalPlayer()
+    {
+        if (!isLocalPlayer)
+            return;
+        
+        PlayAudio(PoolObjectType.RESURRECTION_SOUND);
+    }
+    
+    public void PlayAudio(PoolObjectType poolObjectType)
+    {
+        AudioClip audioClip = DataManager.Instance.EffectAudioClipDic[poolObjectType];
+        if (_statusAudioSource == null)
+            return;
+        _statusAudioSource.PlayOneShot(audioClip);
+    }
+
+    
+    public void AddScoreTargetEffectAndSound(uint netId)
+    {
+        NetworkIdentity networkIdentity = BattleManager.Instance.Server_FindPlayer(netId);
+
+        RpcAddScoreSpawnEffect(networkIdentity);
+        RpcAddScorePlaySound_OnlyLocalPlayer(networkIdentity);
+        
+    }
+    
+    [ClientRpc]
+    private void RpcAddScoreSpawnEffect(NetworkIdentity targetIdentity)
+    {
+        BasePoolObject vfx = DataManager.Instance.EffectVfxDic[PoolObjectType.ADDSCORE_PICKUP_EFFECT];
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.ADDSCORE_PICKUP_EFFECT, vfx,
+            targetIdentity.transform.position, targetIdentity.transform.rotation);
+        
+        basePoolObject.GetComponent<BasePoolObject>().InitObjectType(PoolObjectType.ADDSCORE_PICKUP_EFFECT);
+    }
+    
+    [ClientRpc]
+    private void RpcAddScorePlaySound_OnlyLocalPlayer(NetworkIdentity targetIdentity)
+    {
+        if (!targetIdentity.isLocalPlayer)
+            return;
+        
+        PlayAudio(PoolObjectType.ADDSCORE_PICKUP_SOUND);
+    }
+    
+    private void CheckDead(uint shotPlayerNetId = 0)
     {
         if (CurrentHealth > 0)
             return;
         
         _isDead = true;
         
+        RpcSpawnDeadEffect();
+        
+        //AI -> PLAYER
+        if (shotPlayerNetId == 0)
+        {
+            BattleManager.Instance.Server_PlayerDead(netId);
+            return;
+        }
+
+        AddScoreTargetEffectAndSound(shotPlayerNetId);
+        
+        //AI 사망
         if (IsAI)
         {
             BattleManager.Instance.Server_AIDead(gameObject);
-        }
-        else
-        {
-            if (info != null)
-            {
-                info.Server_AddScore(3); //죽었을때 데미지 준 유저에게 점수 올림
-                BattleManager.Instance.Server_PlayerDead(netId);
-            }
+            BattleManager.Instance.Server_UpdateManagedPlayerScore(shotPlayerNetId, 1);;
+            return;
         }
         
-        
+        //PLAYER -> PLAYER
+        BattleManager.Instance.Server_PlayerDead(netId);
+        BattleManager.Instance.Server_UpdateManagedPlayerScore(shotPlayerNetId, 3);;
     }
     
+    [Server]
     public void Server_Resurrection()
     {
-        _isDead = false;
-        
         Server_SetHealth(100, 100);
         Server_SetDeadTime(3);
 
         
         MoveComponent moveComponent = GetComponent<MoveComponent>();
         moveComponent.Server_GetResurrectionPosition();
+
+        RpcSpawnResurrectionEffect();
+        RpcPlaySoundResurrection_OnlyLocalPlayer();
+        
+        _isDead = false;
     }
 }

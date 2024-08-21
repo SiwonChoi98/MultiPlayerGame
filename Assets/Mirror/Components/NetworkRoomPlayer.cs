@@ -147,13 +147,13 @@ namespace Mirror
             }
         }
 
-        void DrawPlayerReadyState()
+        public virtual void DrawPlayerReadyState()
         {
-            GUILayout.BeginArea(new Rect(475f, 200 + (index * 100f), 90f, 130f));
+            GUILayout.BeginArea(new Rect(475f, 200 + (index * 100f), 150F, 130f));
             
-            GUILayout.Label($"Player [{index + 1}]");
+            //GUILayout.Label($"Player [{index + 1}]");
 
-            if (readyToBegin)
+            /*if (readyToBegin)
                 GUILayout.Label("Ready");
             else
                 GUILayout.Label("Not Ready");
@@ -164,9 +164,9 @@ namespace Mirror
                 // Host and Players can't remove themselves (stop the client instead)
                 // Host can kick a Player this way.
                 GetComponent<NetworkIdentity>().connectionToClient.Disconnect();
-            }
+            }*/
 
-            GUILayout.EndArea();
+            //GUILayout.EndArea();
         }
 
         void DrawPlayerReadyButton()

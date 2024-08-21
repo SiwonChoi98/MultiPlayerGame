@@ -40,4 +40,19 @@ public class RoomManager : NetworkRoomManager
 
         return Color.black;
     }
+
+    public GunDataType SetWeapon(int gunIndex)
+    {
+        switch (gunIndex)
+        {
+            case 0:
+                return GunDataType.SEMIAUTORIFLE_DATA;
+            case 1:
+                return GunDataType.SHOTGUN_DATA;
+            case 2:
+                return GunDataType.WINCHESTER_DATA;
+        }
+
+        return GunDataType.SEMIAUTORIFLE_DATA;
+    }
 }

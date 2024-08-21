@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class CombatComponent : NetworkBehaviour
 {
     [SerializeField] private bool _isPlayer;
-        
+
     [SyncVar(hook = nameof(OnDataChanged))]
     public GunDataType GunDataType;
     
@@ -35,15 +35,17 @@ public class CombatComponent : NetworkBehaviour
     [SyncVar(hook = nameof(OnBulletCountChanged))]
     [SerializeField] private int _bulletCount = 0;
     public int BulletCount => _bulletCount;
+    public int MaxBulletCount = 0;
     public Action<StatType> UpdateBullet;
     
     [SerializeField] private AudioSource _weaponAudioSource;
+    [SerializeField] private AudioSource _statusAudioSource;
     [SerializeField] private SpriteRenderer _weaponSpriteRenderer;
 
     private bool _isWall = false;
     public bool IsWall => _isWall;
     #region UnityMethod
-
+    
     private void FixedUpdate()
     {
         if (isServer)
@@ -63,6 +65,9 @@ public class CombatComponent : NetworkBehaviour
         }
 
         GunDataType = gunDataType;
+
+        RpcSpawnAddWeaponEffect();
+        RpcPlayAudioAddWeaponOnlyLocalPlayer();
     }
     
     public void Fire()
@@ -111,9 +116,20 @@ public class CombatComponent : NetworkBehaviour
         _audioClip = DataManager.Instance.GunAudioClipDic[Weapon_Data.GunAudioType];
         _fireVfx = DataManager.Instance.GunVfxDic[Weapon_Data.VfxObjectType];
         
+        MaxBulletCount = Weapon_Data.BulletCount;
+        
         //무기 바꾸고 나서 바로 공격가능한 상태로 전환
         SuccessFireReady();
         ChargeBullet();
+        
+        //update ui
+        if (isLocalPlayer)
+        {
+            Sprite gunIcon = DataManager.Instance.GunIconDic[Weapon_Data.GunIconType];
+            
+            GamePlayUI.Instance.UpdateUserWeaponUI(gunIcon , Weapon_Data.Damage, Weapon_Data.FireLoadingRate);
+        }
+        
     }
     
     [Command]
@@ -134,11 +150,23 @@ public class CombatComponent : NetworkBehaviour
         PlayFireAudio(_audioClip);
     }
 
+    [ClientRpc]
+    private void RpcPlayAudioAddWeaponOnlyLocalPlayer()
+    {
+        if (!isLocalPlayer)
+            return;
+        
+        AudioClip audioClip = DataManager.Instance.EffectAudioClipDic[PoolObjectType.ADDWEAPON_PICKUP_SOUND];
+        if (_statusAudioSource == null)
+            return;
+        _statusAudioSource.PlayOneShot(audioClip);
+    }
+    
     public void PlayFireAudio(AudioClip audioClip)
     {
         _weaponAudioSource.PlayOneShot(audioClip);
     }
-
+    
     //이펙트
     [ClientRpc]
     private void RpcSpawnFireVFX(bool bIsPredict)
@@ -153,12 +181,42 @@ public class CombatComponent : NetworkBehaviour
 
     private void SpawnFireVFX()
     {
-        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(Weapon_Data.VfxObjectType, _fireVfx, _firePos.position, _firePos.rotation);
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(Weapon_Data.VfxObjectType, _fireVfx, 
+            _firePos.position, _firePos.rotation);
 
         //해당 오브젝트 타입 결정
         basePoolObject.GetComponent<BasePoolObject>().InitObjectType(Weapon_Data.VfxObjectType);
+        
+        RotatePaticleStartPosition(basePoolObject);
     }
     
+    [ClientRpc]
+    private void RpcSpawnAddWeaponEffect()
+    {
+        BasePoolObject vfx = DataManager.Instance.EffectVfxDic[PoolObjectType.ADDWEAPON_PICKUP_EFFECT];
+        BasePoolObject basePoolObject = PoolManager.Instance.SpawnFromPool(PoolObjectType.ADDWEAPON_PICKUP_EFFECT, vfx,
+            transform.position, transform.rotation);
+        
+        basePoolObject.GetComponent<BasePoolObject>().InitObjectType(PoolObjectType.ADDWEAPON_PICKUP_EFFECT);
+    }
+
+    private void RotatePaticleStartPosition(BasePoolObject basePoolObject)
+    {
+        if (basePoolObject == null)
+        {
+            Debug.LogError("BasePoolObject is null!");
+            return;
+        }
+        
+        ParticleSystem.MainModule mainModule = basePoolObject.GetComponent<ParticleSystem>().main;
+        
+        float zRotation = basePoolObject.transform.eulerAngles.z;
+        if (zRotation > 180f) zRotation -= 360f;
+
+        // 조정된 각도를 라디안으로 변환
+        float zRotationInRadians = -zRotation * Mathf.Deg2Rad;
+        mainModule.startRotation = zRotationInRadians;
+    }
     
     [Server]
     public void Server_HitCheck()
@@ -181,7 +239,7 @@ public class CombatComponent : NetworkBehaviour
 
     }
 
-    //Player -> AI --------------------------------------------------------------
+    //Player -> Player ---------------------------------------------------------
     [Server]
     private void Server_PlayerToPlayerHit(RaycastHit2D hit)
     {
@@ -191,11 +249,10 @@ public class CombatComponent : NetworkBehaviour
             return;
         
         var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
-        var user_info = GetComponent<InGameUserInfo>();
-        
-        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, user_info);
+        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, netId);
     }
-
+    
+    //Player -> AI --------------------------------------------------------------
     [Server]
     private void Server_PlayerToAIHit(RaycastHit2D hit)
     {
@@ -205,7 +262,7 @@ public class CombatComponent : NetworkBehaviour
             return;
         
         var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
-        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage);
+        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, netId);
     }
 
     //AI -> Player --------------------------------------------------------------
@@ -219,7 +276,6 @@ public class CombatComponent : NetworkBehaviour
         {
             var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
             hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage);
-            Debug.Log("AI Fire-Success");
         }
     }
     public void Server_AIWallCheck(RaycastHit2D hit)
@@ -260,6 +316,12 @@ public class CombatComponent : NetworkBehaviour
         }
     }
 
+    public void MakeEmptyBullet()
+    {
+        _bulletCount = 0;
+        _isFireReady = false;
+    }
+    
     private void ChargeBullet()
     {
         _bulletCount = Weapon_Data.BulletCount;
@@ -273,6 +335,9 @@ public class CombatComponent : NetworkBehaviour
 
     public float GetMaxFireLoadingRate()
     {
+        if (Weapon_Data == null)
+            return 0;
+        
         return Weapon_Data.FireLoadingRate;
     }
 }

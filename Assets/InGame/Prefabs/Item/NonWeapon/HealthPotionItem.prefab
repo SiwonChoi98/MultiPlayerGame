@@ -105,6 +105,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _poolObjectType: 0
+  _spawnPosIndex: 0
+  _pickUpEffect: {fileID: -2883371259504317951, guid: d14a6e10e08a9c54ca5f7afbff39a909,
+    type: 3}
+  _pickUpSound: {fileID: 2167865683024099440, guid: ee03e6e19f6497742aa7c40995950b02,
+    type: 3}
+  _pickUpSoundClip: {fileID: 8300000, guid: f11744fc381b0b1498578ad2253fade6, type: 3}
   _healthAmount: 10
 --- !u!58 &4025423043660080804
 CircleCollider2D:

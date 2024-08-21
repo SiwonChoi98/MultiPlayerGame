@@ -676,8 +676,9 @@ namespace Mirror
                 GUILayout.EndArea();
             }
 
-            if (Utils.IsSceneActive(RoomScene))
-                GUI.Box(new Rect(360f, 150, 300f, 500f), "Players");
+            //배경 rect
+            /*if (Utils.IsSceneActive(RoomScene))
+                GUI.Box(new Rect(360f, 150, 300f, 500f), "Players");*/
         }
 
         #endregion

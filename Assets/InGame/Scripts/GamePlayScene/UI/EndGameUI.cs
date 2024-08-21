@@ -35,11 +35,12 @@ public class EndGameUI : NetworkBehaviour
             return;
         
         BattleManager manager = BattleManager.Instance;
-        InGameUserInfo userInfo = manager.Server_FindPlayer(Server_Get1thUserNetID(manager)).GetComponent<InGameUserInfo>();
+        InGameUserInfo userInfo = manager.Server_GetTopScorePlayer().GetComponent<InGameUserInfo>();
         
         _userName = userInfo.UserName;
-        _userScore = userInfo.UserScore;
         _userColor = userInfo.UserColor;
+        
+        _userScore = manager.GetManagedPlayerScore(userInfo.netId);
     }
     
     private void OnUserNameChanged(string oldName, string newName)
@@ -55,23 +56,6 @@ public class EndGameUI : NetworkBehaviour
     private void OnUserColorChanged(Color oldColor, Color newColor)
     {
         _userImage.color = newColor;
-    }
-    
-    [Server]
-    private uint Server_Get1thUserNetID(BattleManager manager)
-    {
-        uint targetUserNetId = 0;
-        int maxScore = -1;
-        foreach (var managedPlayer in manager.ManagedPlayers)
-        {
-            InGameUserInfo userInfo = manager.Server_FindPlayer(managedPlayer).GetComponent<InGameUserInfo>();
-            if (userInfo.UserScore > maxScore)
-            {
-                maxScore = userInfo.UserScore;
-                targetUserNetId = managedPlayer;
-            }
-        }
-        return targetUserNetId;
     }
     private void ShowServerButton()
     {

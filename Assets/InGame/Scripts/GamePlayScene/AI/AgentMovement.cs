@@ -19,6 +19,9 @@ public class AgentMovement : MonoBehaviour
     
     public void SetAgentPosition(Vector3 target)
     {
+        if (!gameObject.activeSelf)
+            return;
+        
         Vector2 dirVec = target - transform.position;
         float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
         

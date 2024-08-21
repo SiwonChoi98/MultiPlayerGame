@@ -33,7 +33,18 @@ public abstract class BasePoolObject : NetworkBehaviour
     
     protected void ReturnToPool()
     {
+        if (gameObject == null)
+            return;
+        
         BasePoolObject basePoolObject = gameObject.GetComponent<BasePoolObject>();
-        PoolManager.Instance.ReturnToPool(_poolObjectType, basePoolObject);
+        
+        if (basePoolObject == null)
+            return;
+
+        if (PoolManager.Instance)
+        {
+            PoolManager.Instance.ReturnToPool(_poolObjectType, basePoolObject);
+        }
+        
     }
 }

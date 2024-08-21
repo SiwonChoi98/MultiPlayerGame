@@ -20,6 +20,8 @@ MonoBehaviour:
   GunAudioType: 2
   GunAudioName: ShotGun_Audio
   WeaponPos: {x: -0.1, y: -1.8}
+  GunIconType: 2
+  GunIconName: ShotGun_Icon
   Damage: 10
   FireLoadingRate: 3
   BulletCount: 5

@@ -156,6 +156,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   _poolObjectType: 0
+  _spawnPosIndex: 0
+  _pickUpEffect: {fileID: 3544606909811565914, guid: b1185b08c31a7c54b9736f4eb5c94353,
+    type: 3}
+  _pickUpSound: {fileID: 2167865683024099440, guid: ee03e6e19f6497742aa7c40995950b02,
+    type: 3}
+  _pickUpSoundClip: {fileID: 8300000, guid: f11744fc381b0b1498578ad2253fade6, type: 3}
 --- !u!1001 &3562413980583782252
 PrefabInstance:
   m_ObjectHideFlags: 0

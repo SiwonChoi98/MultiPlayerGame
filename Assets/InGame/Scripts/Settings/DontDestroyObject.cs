@@ -17,7 +17,6 @@ public class DontDestroyObject : Singleton<DontDestroyObject>
     private void InitManager()
     {
         //시작 시 계속 유지되어야 할 매니저들은 여기서 셋팅
-        SetSingleton<PoolManager>();
         SetSingleton<UIManager>();
         SetSingleton<DataManager>();
     }

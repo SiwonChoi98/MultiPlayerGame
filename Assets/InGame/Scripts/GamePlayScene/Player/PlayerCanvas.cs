@@ -9,7 +9,8 @@ public class PlayerCanvas : CharacterCanvas
     [SerializeField] private Text _userIdText;
     [Header("BULLET")]
     [SerializeField] private Text _currentBulletCountText;
-    [SerializeField] private Text _bulletTitleText;
+    [SerializeField] private Image _bulletCountImage;
+    [SerializeField] private GameObject _bulletImageObject;
     [SerializeField] private Image _bulletChargeProgress;
 
     [Header("MINIMAP")] 
@@ -82,7 +83,7 @@ public class PlayerCanvas : CharacterCanvas
     private void UpdateBullet()
     {
         _currentBulletCountText.text = _combatComponent.BulletCount.ToString();
-        
+        _bulletCountImage.fillAmount = (float)_combatComponent.BulletCount / (float)_combatComponent.MaxBulletCount;
     }
     
     private void UpdateFireLoadingRate()
@@ -113,7 +114,7 @@ public class PlayerCanvas : CharacterCanvas
         {
             _bulletChargeProgress.gameObject.SetActive(false);
             _currentBulletCountText.gameObject.SetActive(false);
-            _bulletTitleText.gameObject.SetActive(false);
+            _bulletImageObject.SetActive(false);
         }
     }
 
@@ -121,7 +122,8 @@ public class PlayerCanvas : CharacterCanvas
     {
         if (!_statusComponent.isLocalPlayer)
         {
-            _localMinimapImage.color = Color.yellow;
+            //_localMinimapImage.color = Color.yellow;
+            _localMinimapImage.gameObject.SetActive(false);
         }
     }
 
@@ -130,6 +132,12 @@ public class PlayerCanvas : CharacterCanvas
         for (int i = 0; i < _managedSprites.Count; i++)
         {
             _managedSprites[i].SetActive(isActive);
+        }
+
+        //only local player
+        if (_statusComponent.isLocalPlayer)
+        {
+            _bulletImageObject.SetActive(isActive);
         }
     }
 

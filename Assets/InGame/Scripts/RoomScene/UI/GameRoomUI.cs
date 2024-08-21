@@ -7,8 +7,18 @@ using UnityEngine.UI;
 public class GameRoomUI : MonoBehaviour
 {
     [SerializeField] private InputField _selectUserNameInput;
+    
     [SerializeField] private List<RectTransform> _colorButtonPos;
     [SerializeField] private Image _selectColorImage;
+
+    [SerializeField] private List<RectTransform> _weaponButtonPos;
+    [SerializeField] private Image _selectWeaponImage;
+    
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(AudioType.LOBBY_BGM, 0.2f, true);
+    }
+    
     public void Btn_SelectUserName()
     {
         var manager = NetworkRoomManager.singleton as NetworkRoomManager;
@@ -35,5 +45,20 @@ public class GameRoomUI : MonoBehaviour
         }
 
         _selectColorImage.transform.position = _colorButtonPos[color].transform.position;
+    }
+
+    public void Btn_SelectUserWeapon(int index)
+    {
+        var manager = NetworkRoomManager.singleton as NetworkRoomManager;
+
+        for (int i = 0; i < manager.roomSlots.Count; i++)
+        {
+            if (manager.roomSlots[i].isOwned)
+            {
+                manager.roomSlots[i].GetComponent<RoomPlayer>().CmdSetUserWeapon(index);
+            }
+        }
+
+        _selectWeaponImage.transform.position = _weaponButtonPos[index].transform.position;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -7,6 +8,12 @@ using UnityEngine.UI;
 public class LobbyUI : MonoBehaviour
 {
     [SerializeField] private InputField _roomNameField;
+
+    private void Start()
+    {
+        SoundManager.Instance.PlayBGM(AudioType.LOBBY_BGM, 0.2f, true);
+    }
+
     public void Btn_CreateRoom()
     {
         CreateRoom();

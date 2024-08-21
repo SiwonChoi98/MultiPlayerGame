@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Org.BouncyCastle.Asn1.X509;
 using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Time = UnityEngine.Time;
 
 public class BattleManager : NetworkBehaviour
 {
@@ -38,13 +40,15 @@ public class BattleManager : NetworkBehaviour
 
     private bool _isSpawned = false;
     private float _nextSpawnTime = 0f;
-    [SerializeField] private float _spawnInterval = 5f; 
+    [SerializeField] private float _spawnInterval; 
     
     //itemOnly
     private int _itemSpawnPosIndex;
     
     [Header("관리----------------")] 
     public readonly SyncList<uint> ManagedPlayers = new SyncList<uint>();
+
+    public readonly SyncDictionary<uint, int> ManagedPlayerScoreDictionary = new SyncDictionary<uint, int>();
     
     [SerializeField] private List<BasePoolObject> _managedItems = new List<BasePoolObject>();
 
@@ -53,26 +57,16 @@ public class BattleManager : NetworkBehaviour
     
     public readonly SyncList<PosValueTuple> SpawnItemPosList = new SyncList<PosValueTuple>();
     [SerializeField] private GameObject _spawnItemPosGroup;
-
-    [Header("사운드--------------")]
-    [SerializeField] private AudioClip _battleSoundClip;
-    private AudioSource _audioSource;
     
     #region UnityMethod
 
     private void Awake()
     {
         Init_BattleManager();
-        SetAudioSource();
     }
-    private void Start()
-    {
-        PlaySound();
-    }
-    
+
     public override void OnStartServer()
     {
-        
         Server_SetRule();
         Server_SetSpawnPos();
 
@@ -87,13 +81,15 @@ public class BattleManager : NetworkBehaviour
         if (!isServer)
             return;
         
+        Server_InputSpawn(); //나중에 지울 코드
+        
+        
         Server_SpawnTimeCalculate();
         Server_UpdatePlayTime();
         
         if (_isItemSpawn)
         {
             Server_SpawnRandomItem();
-            Server_InputSpawn(); //나중에 지울 코드
         }
     }
     
@@ -125,6 +121,7 @@ public class BattleManager : NetworkBehaviour
         _nextSpawnTime = Time.time + _spawnInterval;
         _playTime = InitialTime;
         IsEnd = false;
+        Time.timeScale = 1f;
     }
 
     [Server]
@@ -136,11 +133,12 @@ public class BattleManager : NetworkBehaviour
             if (_playTime < 0)
             {
                 IsEnd = true;
+                Time.timeScale = 0f;
                 _playTime = 0;
             }
         }
     }
-   
+
     [Server]
     private void Server_SetSpawnPos()
     {
@@ -152,19 +150,13 @@ public class BattleManager : NetworkBehaviour
         {
             SpawnPlayerPosList.Add(new PosValueTuple(_spawnPlayerPosTransforms[i].position, true));
         }
-        
+
         for (int i = 1; i < _spawnItemPosTransforms.Length; i++)
         {
             SpawnItemPosList.Add(new PosValueTuple(_spawnItemPosTransforms[i].position, true));
         }
     }
-    private void SetAudioSource()
-    {
-        _audioSource = GetComponentInChildren<AudioSource>();
-        _audioSource.clip = _battleSoundClip;
-        _audioSource.volume = 0.2f;
-    }
-    
+
     [Server]
     private void Server_InputSpawn()
     {
@@ -331,7 +323,12 @@ public class BattleManager : NetworkBehaviour
                     if (spawnPostionType == SpawnPostionType.PLAYER)
                     {
                         int prevIndex = Server_GetUserSpawnPosIndex(netId);
-                        Server_SetTuple(positionList, prevIndex, true);
+                        //첫 시작은 -1
+                        if (prevIndex != -1)
+                        {
+                            Server_SetTuple(positionList, prevIndex, true);
+                        }
+                        
                     }
                     
                     //생성 위치 update (false) 해준다. (해당 지역에서 다시 스폰 안되게) //player, item
@@ -419,9 +416,9 @@ public class BattleManager : NetworkBehaviour
     }
     
     [Server]
-    public void Server_AddManagedPlayer(GameObject PlayerObject)
+    public void Server_AddManagedPlayer(uint netId)
     {
-        ManagedPlayers.Add(PlayerObject.GetComponent<NetworkIdentity>().netId);
+        ManagedPlayers.Add(netId);
     }
 
     [Server]
@@ -434,6 +431,42 @@ public class BattleManager : NetworkBehaviour
     public void Server_RemoveManagedItem(BasePoolObject basePoolObject)
     {
         _managedItems.Remove(basePoolObject);
+    }
+
+    [Server]
+    public void Server_AddManagedPlayerScore(uint netId)
+    {
+        ManagedPlayerScoreDictionary.Add(netId, 0);
+    }
+
+    [Server]
+    public void Server_UpdateManagedPlayerScore(uint netId, int newValue)
+    {
+        ManagedPlayerScoreDictionary[netId] += newValue;
+    }
+    
+    public int GetManagedPlayerScore(uint netId)
+    {
+        return ManagedPlayerScoreDictionary[netId];
+    }
+    
+    [Server]
+    public NetworkIdentity Server_GetTopScorePlayer()
+    {
+        uint topNetid = UInt32.MinValue;
+        int maxScore = Int32.MinValue;
+        
+        foreach (var playerNetId in ManagedPlayers)
+        {
+            //0점일 때 고려해서 >= 허용 단! 늦게 찾은 플레이어 점수가 덮어씌워짐
+            if (GetManagedPlayerScore(playerNetId) >= maxScore)
+            {
+                topNetid = playerNetId;
+                maxScore = GetManagedPlayerScore(playerNetId);
+            }
+        }
+        
+        return Server_FindPlayer(topNetid);
     }
     
     public int GetRandomIndex(int maxCount)
@@ -498,6 +531,7 @@ public class BattleManager : NetworkBehaviour
     public void Server_PlayerDead(uint netId)
     {
         NetworkIdentity networkIdentity = Server_FindPlayer(netId);
+        
         if (networkIdentity)
         {
             StartCoroutine(Server_Resurrection(networkIdentity.gameObject));
@@ -517,15 +551,12 @@ public class BattleManager : NetworkBehaviour
         }
         return null;
     }
+    
     [Server]
     private IEnumerator Server_Resurrection(GameObject targetObject)
     {
         yield return GameSettings.WInGameDeadTime;
         targetObject.GetComponent<StatusComponent>().Server_Resurrection();
     }
-
-    private void PlaySound()
-    {
-        _audioSource.Play();
-    }
+    
 }

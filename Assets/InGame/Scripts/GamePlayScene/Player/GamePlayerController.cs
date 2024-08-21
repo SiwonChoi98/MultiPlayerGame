@@ -25,7 +25,9 @@ public class GamePlayerController : NetworkBehaviour
     public override void OnStartServer() 
     {
         EquipWeapon();
-        BattleManager.Instance.Server_AddManagedPlayer(gameObject);
+        
+        BattleManager.Instance.Server_AddManagedPlayer(netId);
+        BattleManager.Instance.Server_AddManagedPlayerScore(netId);
     }
 
     public override void OnStartClient()
@@ -39,8 +41,9 @@ public class GamePlayerController : NetworkBehaviour
         if (!CheckInput())
             return;
         
-        Fire();
-        InputShowRankUI();
+        Input_Fire();
+        Input_ChargeBullet();
+        Input_ShowRankUI();
     }
 
     private void FixedUpdate()
@@ -48,7 +51,7 @@ public class GamePlayerController : NetworkBehaviour
         if (!CheckInput())
             return;
         
-        Move();
+        Input_Move();
         Rotate();
         
     }
@@ -73,12 +76,13 @@ public class GamePlayerController : NetworkBehaviour
     {
         if (_combatComponent == null)
             return;
-        
-        _combatComponent.EquipWeaponData(GunDataType.WINCHESTER_DATA);
+
+        InGameUserInfo userInfo = GetComponent<InGameUserInfo>();
+        _combatComponent.EquipWeaponData(userInfo.UserWeapon);
     }
     
     //플레이어 이동
-    private void Move()
+    private void Input_Move()
     {
         float inputX = Input.GetAxis("Horizontal");
         float inputY = Input.GetAxis("Vertical");
@@ -89,7 +93,7 @@ public class GamePlayerController : NetworkBehaviour
     }
 
     //총알 발사
-    private void Fire()
+    private void Input_Fire()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -97,6 +101,13 @@ public class GamePlayerController : NetworkBehaviour
         }
     }
 
+    private void Input_ChargeBullet()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _combatComponent.MakeEmptyBullet();
+        }
+    }
     //회전
     private void Rotate()
     {
@@ -130,7 +141,7 @@ public class GamePlayerController : NetworkBehaviour
         
     }
 
-    private void InputShowRankUI()
+    private void Input_ShowRankUI()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {

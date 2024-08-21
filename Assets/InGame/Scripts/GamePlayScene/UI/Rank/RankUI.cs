@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -8,21 +9,31 @@ public class RankUI : MonoBehaviour
 {
     [SerializeField] private List<UserInfoItem> _userInfoItemList;
 
-    public void SetRankUI(int userCount)
+    private void Update()
     {
-        for (int i = 0; i < userCount; i++)
+        //틱마다 도는 형태 수정 필요
+        if (gameObject.activeSelf)
         {
-            GameObject userObject = FindNetworkObject(BattleManager.Instance.ManagedPlayers[i]);
+            UpdateRankUI();
+        }
+    }
+
+    public void UpdateRankUI()
+    {
+        for (int i = 0; i < BattleManager.Instance.ManagedPlayers.Count; i++)
+        {
+            uint playerNetId = BattleManager.Instance.ManagedPlayers[i];
+            GameObject userObject = FindNetworkObject(playerNetId);
             if(userObject == null)
                 continue;
             
             InGameUserInfo info = userObject.GetComponent<InGameUserInfo>();
-            
             _userInfoItemList[i].gameObject.SetActive(true);
-            _userInfoItemList[i].SetUserInfo(info.UserName, info.UserScore);
-        }
 
-        
+            int userScore = BattleManager.Instance.GetManagedPlayerScore(playerNetId);
+            
+            _userInfoItemList[i].SetUserInfo(info.UserName, userScore);
+        }
     }
     
     // 특정 네트워크 ID로 네트워크 오브젝트를 찾는 함수

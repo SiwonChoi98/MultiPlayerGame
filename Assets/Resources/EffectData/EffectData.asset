@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71df583e92a856d4b94c3868cac97b01, type: 3}
+  m_Name: EffectData
+  m_EditorClassIdentifier: 
+  AddScoreEffectType: 10
+  AddScoreEffectName: AddScore_Effect
+  AddScoreSoundType: 15
+  AddScoreSoundName: AddScore_Sound
+  HealthEffectType: 9
+  HealthEffectName: Health_Effect
+  HealthSoundType: 14
+  HealthSoundName: Health_Sound
+  AddWeaponEffectType: 11
+  AddWeaponEffectName: AddWeapon_Effect
+  AddWeaponSoundType: 16
+  AddWeaponSoundName: AddWeapon_Sound
+  ResurrectionEffectType: 12
+  ResurrectionEffectName: Resurrection_Effect
+  ResurrectionSoundType: 17
+  ResurrectionSoundName: Resurrection_Sound
+  HitDamageEffectType: 13
+  HitEffectName: Hit_Effect
+  HitDamageSoundType: 18
+  HitSoundName: Hit_Sound
+  DeadEffectType: 19
+  DeadEffectName: Dead_Effect

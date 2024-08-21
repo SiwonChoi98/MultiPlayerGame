@@ -11,20 +11,23 @@ public class InGameUserInfo : NetworkBehaviour
     [SerializeField] private string _userName;
     public string UserName => _userName;
     public Action UpdateUserID;
-    [SyncVar]
-    [SerializeField] private int _userScore;
-    public int UserScore => _userScore;
+
+    [SyncVar] 
+    [SerializeField] private GunDataType _userWeapon;
+    public GunDataType UserWeapon => _userWeapon;
     
-    [SerializeField] private int _userSpawnPosIndex;
+    private int _userSpawnPosIndex = -1;
     
     [SyncVar] 
     [SerializeField] private Color _userColor;
     public Color UserColor => _userColor;
+    
+    [SerializeField] private AudioSource _statusAudioSource;
     public override void OnStartServer()
     {
-        Server_SetScore();
         Server_SetUserName();
         Server_SetUserColor();
+        Server_SetUserWeapon();
     }
 
     public void OnUserIDChanged(string old, string newString)
@@ -58,22 +61,13 @@ public class InGameUserInfo : NetworkBehaviour
     {
         _userColor = Server_FindLocalRoomPlayer().UserColor;
     }
-    
-    [Server]
-    private void Server_SetScore()
-    {
-        _userScore = 0;
-    }
-    
-    [Server]    
-    public void Server_AddScore(int score)
-    {
-        if (!isServer)
-            return;
-        
-        _userScore += score;
-    }
 
+    [Server]
+    private void Server_SetUserWeapon()
+    {
+        _userWeapon = Server_FindLocalRoomPlayer().UserWeapon;
+    }
+    
     [Server]
     public void Server_SetUserSpawnPosIndex(int spawnPosIndex)
     {
