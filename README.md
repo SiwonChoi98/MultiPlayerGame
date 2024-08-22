@@ -1,11 +1,14 @@
 # MultiPlayerGame
 
 ![1](https://github.com/user-attachments/assets/d52e13e0-8bde-4b72-9e39-3d1d1425dc48)
-![2](https://github.com/user-attachments/assets/66cdfd72-0252-4c16-ab05-f2ec86aa20fd)
+![1](https://github.com/user-attachments/assets/9511edfa-7ca7-4013-8ccb-bfe4caa662ff)
 ![3](https://github.com/user-attachments/assets/d2b9167a-913d-400a-a286-035634704859)
 ![4](https://github.com/user-attachments/assets/e6815b02-0ebe-4365-90c0-d4aed4650233)
 ![5](https://github.com/user-attachments/assets/c5ac49c7-92aa-4bd8-a200-f6e14ae56a81)
 
+##### 플레이 영상 
+
+[ https://www.youtube.com/watch?v=g7HYcXvn8oQ ]
 
 ##### 게임 설명
 ![1](https://github.com/user-attachments/assets/3fc05c32-5a47-4cd0-933e-b29d2cd7486e)
@@ -21,6 +24,11 @@ Suv : Github
 - UniTask 
 - Mirror
 - Behevior Tree 
+
+#### 수정 및 개선 점
+
+- asset load : resources -> addresable
+  
 
 ##### 코드 구조 및 다이어 그램
 
