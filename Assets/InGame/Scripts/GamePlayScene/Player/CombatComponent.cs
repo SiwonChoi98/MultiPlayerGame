@@ -321,6 +321,12 @@ public class CombatComponent : NetworkBehaviour
         _bulletCount = 0;
         _isFireReady = false;
     }
+
+    [Command]
+    public void CmdMakeEmptyBullet()
+    {
+        MakeEmptyBullet();
+    }
     
     private void ChargeBullet()
     {

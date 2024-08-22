@@ -56,7 +56,7 @@ MonoBehaviour:
   onlineScene: Assets/InGame/Scenes/GameRoom.unity
   transport: {fileID: 46962071051329118}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 4
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}

@@ -105,7 +105,14 @@ public class GamePlayerController : NetworkBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            _combatComponent.MakeEmptyBullet();
+            if (isServer)
+            {
+                _combatComponent.MakeEmptyBullet();
+            }else if (!isServer)
+            {
+                _combatComponent.CmdMakeEmptyBullet();
+            }
+            
         }
     }
     //회전
