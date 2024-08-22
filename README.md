@@ -25,6 +25,11 @@ Suv : Github
 - Mirror
 - Behevior Tree 
 
+#### 수정 및 개선 점
+
+- asset load : resources -> addresable
+  
+
 ##### 코드 구조 및 다이어 그램
 
 ![2](https://github.com/user-attachments/assets/de8a24ac-9204-432b-ad01-1b207a4d9b9e)
