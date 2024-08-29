@@ -18,7 +18,7 @@
 ##### 형상 관리
 Main : Unity Version Control (Plastic SCM) 
 
-Suv : Github
+Sub : Github
 
 ##### API  
 - UniTask 
