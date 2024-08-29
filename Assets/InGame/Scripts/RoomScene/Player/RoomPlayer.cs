@@ -75,8 +75,14 @@ public class RoomPlayer : NetworkRoomPlayer
          
          DrawPlayerReadyState();
          
-         GameRoomUI.Instance.SetUserItemList(index, _userName, readyToBegin, isLocalPlayer);
+         GameRoomUI.Instance.SetUserItemList(true, index, _userName, readyToBegin, isLocalPlayer);
       }
       
+   }
+
+   public override void OnDisable()
+   {
+      GameRoomUI.Instance.SetUserItemList(false, index, _userName, readyToBegin, isLocalPlayer);
+      base.OnDisable();
    }
 }

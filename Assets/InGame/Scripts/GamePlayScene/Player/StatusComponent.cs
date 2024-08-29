@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using UnityEditor;
 using UnityEngine;
 
 public class StatusComponent : NetworkBehaviour
@@ -82,7 +83,7 @@ public class StatusComponent : NetworkBehaviour
     }
     //공격받기
     [Server]
-    public void Server_TakeDamage(int amount, uint shotPlayerNetId = 0)
+    public void Server_TakeDamage(int amount, ShotObjectType shotObjectType, uint shotPlayerNetId = 0)
     {
         if (CurrentHealth <= 0)
             return;
@@ -93,14 +94,18 @@ public class StatusComponent : NetworkBehaviour
         
         RpcSpawnHitEffect();
         RpcPlaySoundHit_OnlyLocalPlayer();
+
         
-        if (shotPlayerNetId == 0)
+        if (CurrentHealth <= 0)
         {
-            CheckDead();
-        }
-        else
-        {
-            CheckDead(shotPlayerNetId);
+            if (shotPlayerNetId == 0)
+            {
+                StartCoroutine(ObjectDead(shotObjectType));
+            }
+            else
+            {
+                StartCoroutine(ObjectDead(shotObjectType, shotPlayerNetId));
+            }
         }
     }
     
@@ -232,33 +237,44 @@ public class StatusComponent : NetworkBehaviour
         PlayAudio(PoolObjectType.ADDSCORE_PICKUP_SOUND);
     }
     
-    private void CheckDead(uint shotPlayerNetId = 0)
+    private IEnumerator ObjectDead(ShotObjectType shotObjectType, uint shotPlayerNetId = 0)
     {
-        if (CurrentHealth > 0)
-            return;
-        
         _isDead = true;
-        
-        RpcSpawnDeadEffect();
-        
-        //AI -> PLAYER
-        if (shotPlayerNetId == 0)
-        {
-            BattleManager.Instance.Server_PlayerDead(netId);
-            return;
+
+        if(shotObjectType == ShotObjectType.AITOPLAYER){
+            AIToPlayerDead();
         }
 
+        RpcSpawnDeadEffect();
         AddScoreTargetEffectAndSound(shotPlayerNetId);
+
+        yield return new WaitForEndOfFrame();
         
-        //AI 사망
-        if (IsAI)
-        {
-            BattleManager.Instance.Server_AIDead(gameObject);
-            BattleManager.Instance.Server_UpdateManagedPlayerScore(shotPlayerNetId, 1);;
-            return;
+        if(shotObjectType == ShotObjectType.PLAYERTOAI){
+            PlayerToAIDead(shotPlayerNetId);
         }
-        
-        //PLAYER -> PLAYER
+
+        if (shotObjectType == ShotObjectType.PLAYERTOPLAYER)
+        {
+            PlayerToPlayerDead(shotPlayerNetId);
+        }
+    }
+
+    //AI -> PLAYER
+    private void AIToPlayerDead()
+    {
+        BattleManager.Instance.Server_PlayerDead(netId);
+    }
+    //Player -> AI
+    private void PlayerToAIDead(uint shotPlayerNetId)
+    {
+        BattleManager.Instance.Server_AIDead(gameObject);
+        BattleManager.Instance.Server_UpdateManagedPlayerScore(shotPlayerNetId, 1);;
+    }
+
+    //PLAYER -> PLAYER
+    private void PlayerToPlayerDead(uint shotPlayerNetId)
+    {
         BattleManager.Instance.Server_PlayerDead(netId);
         BattleManager.Instance.Server_UpdateManagedPlayerScore(shotPlayerNetId, 3);;
     }

@@ -78,9 +78,13 @@ public class GameRoomUI : Singleton<GameRoomUI>
         _localRoomPlayer.DrawPlayerReadyButton();
     }
 
-    public void SetUserItemList(int index, string name, bool state, bool isLocalPlayer)
+    public void SetUserItemList(bool enable, int index, string name, bool state, bool isLocalPlayer)
     {
-        _userItemList[index].gameObject.SetActive(true);
+        _userItemList[index].gameObject.SetActive(enable);
+        
+        if (!enable)
+            return;
+        
         _userItemList[index].SetPlayerInfo(name, state, isLocalPlayer);
     }
 }

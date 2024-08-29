@@ -35,7 +35,8 @@ public class GamePlayUI : NetworkBehaviour
     
     private void Start()
     {
-        SoundManager.Instance.PlayBGM(AudioType.GAMEPLAY_BGM, 0.2f, true);
+        //SoundManager.Instance.PlayBGM(AudioType.GAMEPLAY_BGM, 0.2f, true);
+        SoundManager.Instance.StopBGM();
         BattleManager.Instance.UpdateEnd += ShowEndUI;
     }
     

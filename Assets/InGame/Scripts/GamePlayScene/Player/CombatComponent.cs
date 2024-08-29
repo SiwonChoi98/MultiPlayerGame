@@ -249,7 +249,7 @@ public class CombatComponent : NetworkBehaviour
             return;
         
         var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
-        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, netId);
+        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, ShotObjectType.PLAYERTOPLAYER, netId);
     }
     
     //Player -> AI --------------------------------------------------------------
@@ -262,7 +262,7 @@ public class CombatComponent : NetworkBehaviour
             return;
         
         var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
-        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, netId);
+        hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, ShotObjectType.PLAYERTOAI, netId);
     }
 
     //AI -> Player --------------------------------------------------------------
@@ -275,7 +275,7 @@ public class CombatComponent : NetworkBehaviour
         if (playerController != null)
         {
             var hit_statusComponent = hit.transform.GetComponent<StatusComponent>();
-            hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage);
+            hit_statusComponent.Server_TakeDamage(Weapon_Data.Damage, ShotObjectType.AITOPLAYER);
         }
     }
     public void Server_AIWallCheck(RaycastHit2D hit)

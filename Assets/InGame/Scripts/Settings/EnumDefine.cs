@@ -77,6 +77,12 @@ public enum SpawnPostionType
     ITEM,
 }
 
+public enum ShotObjectType
+{
+    PLAYERTOPLAYER,
+    PLAYERTOAI,
+    AITOPLAYER,
+}
 public enum AudioType
 {
     LOBBY_BGM,
