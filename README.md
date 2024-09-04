@@ -15,10 +15,15 @@
 
 ##### 게임 플레이
 1. 해당 링크로 들어가서 파일 다운로드
-2. 1번 플레이어 방 생성
-3. 아래 2가지 사진의 방법들으로 방입장
 
-5. 플레이
+3. 1번 플레이어 방 생성
+4. 아래 2가지 사진의 방법들으로 방입장
+- <img width="117" alt="1" src="https://github.com/user-attachments/assets/aa4da769-28c5-4934-b5d8-f8e9a8da3312">
+localhost < 문자를 입력
+- <img width="164" alt="2" src="https://github.com/user-attachments/assets/28376b0f-1b96-440b-a456-92dbfe4c4f9c">
+해당 버튼 클릭 후 연동 되어있는 웹사이트에서 주소를 복사 후 입력 
+
+4. 플레이
 
 ##### 서버
 - Listen Server (Mirror)
