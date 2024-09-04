@@ -16,9 +16,11 @@
 -----------------------------------------------------
 ##### 게임 플레이
 1. 해당 링크로 들어가서 파일 다운로드
+   
+[ https://drive.google.com/drive/folders/1VX7qYBRKgobWSIG66x_QA4sdJgjD__O8?usp=sharing ]
 
-3. 1번 플레이어 방 생성
-4. 아래 2가지 사진의 방법들으로 방입장
+2. 1번 플레이어 방 생성
+3. 아래 2가지 사진의 방법들으로 방입장
 - <img width="117" alt="1" src="https://github.com/user-attachments/assets/aa4da769-28c5-4934-b5d8-f8e9a8da3312">
 localhost < 문자를 입력
 - <img width="164" alt="2" src="https://github.com/user-attachments/assets/28376b0f-1b96-440b-a456-92dbfe4c4f9c">
