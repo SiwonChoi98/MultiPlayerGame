@@ -11,7 +11,15 @@
 [ https://www.youtube.com/watch?v=g7HYcXvn8oQ ]
 
 ##### 게임 설명
-![1](https://github.com/user-attachments/assets/3fc05c32-5a47-4cd0-933e-b29d2cd7486e)
+![1](https://github.com/user-attachments/assets/3fc05c32-5a47-4cd0-933e-b29d2cd7486e)\
+
+##### 게임 플레이
+1. 해당 링크로 들어가서 파일 다운로드
+2. 1번 플레이어 방 생성
+3. 아래 2가지 사진의 방법들으로 방입장
+
+5. 플레이
+
 ##### 서버
 - Listen Server (Mirror)
 
