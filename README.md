@@ -16,8 +16,11 @@
 -----------------------------------------------------
 ##### 게임 플레이
 1. 해당 링크로 들어가서 파일 다운로드
-   
-[ https://drive.google.com/drive/folders/1VX7qYBRKgobWSIG66x_QA4sdJgjD__O8?usp=sharing ]
+
+<div align=left>
+ <a href="https://drive.google.com/drive/folders/1VX7qYBRKgobWSIG66x_QA4sdJgjD__O8?usp=sharing">
+  <img src="https://img.shields.io/badge/Download-0C322C?style=for-the-badge&logo=clubhouse&logoColor=white">
+</div>
 
 2. 1번 플레이어 방 생성
 3. 아래 2가지 사진의 방법들으로 방입장
