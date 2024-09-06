@@ -40,6 +40,8 @@ public class StatusComponent : NetworkBehaviour
     public Action<StatType> UpdateCombat;
 
     public bool IsAI = false;
+    public bool IsAIDamaged { get; set; }
+    public Vector3 ShotPlayerPos { get; set; }
     //------------------------------------------------------------------
     
     [SerializeField] private AudioSource _statusAudioSource;
@@ -95,6 +97,12 @@ public class StatusComponent : NetworkBehaviour
         RpcSpawnHitEffect();
         RpcPlaySoundHit_OnlyLocalPlayer();
 
+        if (shotObjectType == ShotObjectType.PLAYERTOAI)
+        {
+            if(IsAIDamaged == false) IsAIDamaged = true;
+            ShotPlayerPos = 
+                BattleManager.Instance.Server_FindPlayer(shotPlayerNetId).transform.position;
+        }
         
         if (CurrentHealth <= 0)
         {

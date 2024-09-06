@@ -52874,6 +52874,7 @@ MonoBehaviour:
   syncInterval: 0
   _isRandomPosition: 1
   _isItemSpawn: 1
+  _isUsedBullet: 1
   _playTime: 0
   InitialTime: 300
   IsEnd: 0

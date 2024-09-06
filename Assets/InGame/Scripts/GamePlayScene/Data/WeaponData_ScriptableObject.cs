@@ -27,8 +27,10 @@ public class WeaponData_ScriptableObject : ScriptableObject
     public GunIconType GunIconType;
     public string GunIconName;
 
-    public int Damage;
+    public int Damage; //데미지 거리
+    public float DamageDistance; //데미지 거리
+    
     public float FireLoadingRate; //장전 쿨타임
     public int BulletCount; //총알 갯수
-
+    
 }

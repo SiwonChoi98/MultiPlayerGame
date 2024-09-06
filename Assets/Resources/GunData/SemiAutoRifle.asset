@@ -23,5 +23,6 @@ MonoBehaviour:
   GunIconType: 0
   GunIconName: SemiAutoRifle_Icon
   Damage: 5
+  DamageDistance: 7
   FireLoadingRate: 2
   BulletCount: 10

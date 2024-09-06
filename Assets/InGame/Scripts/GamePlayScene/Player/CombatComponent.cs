@@ -21,7 +21,7 @@ public class CombatComponent : NetworkBehaviour
     
     [SerializeField] private Transform _firePos; //공격 이펙트 위치
     
-    private const float _fireDistance = 15f;
+    private float _fireDistance = 15f;
     
     [Header("Fire")]
     [SyncVar]
@@ -90,7 +90,6 @@ public class CombatComponent : NetworkBehaviour
             Server_HitCheck(_fireDistance);
             
             UseBullet();
-            
         }
         else if(isOwned && !isServer)
         {
@@ -115,6 +114,8 @@ public class CombatComponent : NetworkBehaviour
         
         _audioClip = DataManager.Instance.GunAudioClipDic[Weapon_Data.GunAudioType];
         _fireVfx = DataManager.Instance.GunVfxDic[Weapon_Data.VfxObjectType];
+
+        _fireDistance = Weapon_Data.DamageDistance;
         
         MaxBulletCount = Weapon_Data.BulletCount;
         
@@ -305,6 +306,9 @@ public class CombatComponent : NetworkBehaviour
 
     private void UseBullet()
     {
+        if (!BattleManager.Instance.IsUsedbullet)
+            return;
+        
         if (_bulletCount < 0)
             return;
 
@@ -321,11 +325,16 @@ public class CombatComponent : NetworkBehaviour
         _bulletCount = 0;
         _isFireReady = false;
     }
-
+    
     [Command]
     public void CmdMakeEmptyBullet()
     {
         MakeEmptyBullet();
+    }
+
+    public bool CheckPossibleChargeBullet()
+    {
+        return _bulletCount != MaxBulletCount;
     }
     
     private void ChargeBullet()

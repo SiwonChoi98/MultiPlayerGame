@@ -29,6 +29,15 @@ public class AgentMovement : MonoBehaviour
         _navMeshAgent.SetDestination(new Vector3(target.x, target.y, transform.position.z));
     }
 
+    public void SetStopPosition(Vector3 targetPos)
+    {
+        Vector2 dirVec = targetPos - transform.position;
+        float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
+        
+        _rotateComponent.RotateTowardsMouse(angle);
+        _navMeshAgent.isStopped = true;
+    }
+
     public void SetStopPosition()
     {
         _navMeshAgent.isStopped = true;

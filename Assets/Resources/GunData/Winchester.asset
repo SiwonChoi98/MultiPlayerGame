@@ -23,5 +23,6 @@ MonoBehaviour:
   GunIconType: 1
   GunIconName: Winchester_Icon
   Damage: 25
+  DamageDistance: 13
   FireLoadingRate: 4
   BulletCount: 3

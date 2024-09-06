@@ -18,6 +18,8 @@ public class BattleManager : NetworkBehaviour
     [Header("설정----------------")]
     [SerializeField] private bool _isRandomPosition = false; //GetSpawnRandomPosition 여부
     [SerializeField] private bool _isItemSpawn = false; //아이템 스폰 여부
+    [SerializeField] private bool _isUsedBullet = false; //총알 소모 여부 
+    public bool IsUsedbullet { get => _isUsedBullet; } 
 
     [Header("시간----------------")]
     [SyncVar]

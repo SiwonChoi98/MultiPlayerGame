@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23f08d2ae4cba14087c1ed36193d82b, type: 3}
+  m_Name: NewAI_Behavior
+  m_EditorClassIdentifier: 
+  mBehaviorSource:
+    behaviorName: New AI Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(587.5,30)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-2.5,120)","ColorIndex":1},"ID":1,"Name":"StartSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"Init_Task","NodeData":{"Offset":"(-82.5,120)","Comment":"\ucd08\uae30\ud654","ColorIndex":7},"ID":2,"Name":"Init  
+        Task","Instant":true,"SharedVector3InitPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_InitPos","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedFloatFindTargetRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Shared_FindTargetRadius","IsShared":true,"SinglemValue":6},"SharedLayerMaskFindTargetLayerMask":{"Type":"BehaviorDesigner.Runtime.SharedLayerMask","Name":"Shared_FindTargetLayerMask","IsShared":true,"LayerMaskmValue":64}},{"Type":"BehaviorDesigner.Runtime.Tasks.Repeater","NodeData":{"Offset":"(97.5,120)","ColorIndex":3},"ID":3,"Name":"Repeater","Instant":true,"SharedIntcount":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":null,"Int32mValue":0},"SharedBoolrepeatForever":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":true},"SharedBoolendOnFailure":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-95.17278,112.757126)","ColorIndex":8},"ID":4,"Name":"CheckSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CheckTarget_Task","NodeData":{"Offset":"(-182.5,130)","Comment":"\uac00\uae4c\uc6b4
+        \ud0c0\uac9f \uc9c0\uc815 \ubc0f \ud574\uc81c\nonly success","ColorIndex":6},"ID":5,"Name":"Check
+        Target   Task","Instant":true,"SharedTransformTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true},"SharedFloatSFindTargetRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Shared_FindTargetRadius","IsShared":true,"SinglemValue":6},"SharedLayerMaskSFindTargetLayerMask":{"Type":"BehaviorDesigner.Runtime.SharedLayerMask","Name":"Shared_FindTargetLayerMask","IsShared":true,"LayerMaskmValue":64}},{"Type":"CheckTakeDamage_Task","NodeData":{"Offset":"(-2.5,130)","Comment":"\ub370\ubbf8\uc9c0
+        \ubc1b\uc558\ub294\uc9c0 \uccb4\ud06c\nonly success","ColorIndex":6},"ID":6,"Name":"Check
+        Take Damage   Task","Instant":true,"SharedVector3TakeDamagedPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_FindDamagedPos","IsShared":true,"Vector3mValue":"(0,0,0)"}},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(157.5,130)","ColorIndex":2},"ID":7,"Name":"ActionSelector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-539.0731,160.78302)","ColorIndex":2},"ID":8,"Name":"AttackSelector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-4.650772,112.698975)","ColorIndex":8},"ID":9,"Name":"AttackSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"CheckAttackDistance_Task","NodeData":{"Offset":"(-206.30368,126.318764)","Comment":"\uacf5\uaca9
+        \uac70\ub9ac \uccb4\ud06c","ColorIndex":7},"ID":10,"Name":"Check Attack Distance  
+        Task","Instant":true,"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true}},{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-61.8592567,126.318672)"},"ID":11,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":null,"SinglemValue":1}},{"Type":"Attack_Task","NodeData":{"Offset":"(49.25187,126.318665)","Comment":"\uacf5\uaca9
+        \nonly success\n(\uc6b0\uc120 \uacf5\uaca9 \uc131\uacf5\ucc98\ub9ac\ub9cc)","ColorIndex":6},"ID":12,"Name":"Attack  
+        Task","Instant":true,"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Selector","NodeData":{"Offset":"(-165.813965,158.37207)","ColorIndex":2},"ID":13,"Name":"MoveSelector","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(-87.69258,123.633728)","ColorIndex":8},"ID":14,"Name":"ChaseTargetSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ChaseTarget_Task","NodeData":{"Offset":"(0.84308815,132.258484)","Comment":"\ud0c0\uac9f
+        \ucd94\uc801","ColorIndex":7},"ID":15,"Name":"Chase Target   Task","Instant":true,"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(87.30747,123.633728)","ColorIndex":8},"ID":16,"Name":"LastPointSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"ChaseFindPoint_Task","NodeData":{"Offset":"(-4.839238,133.5022)","Comment":"\uacf5\uaca9
+        \ubc1b\uc740 \uc9c0\uc5ed \uc774\ub3d9","ColorIndex":7},"ID":17,"Name":"Chase
+        Find Point   Task","Instant":true,"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true},"SharedVector3STakeDamagedPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_FindDamagedPos","IsShared":true,"Vector3mValue":"(0,0,0)"}}]}]},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(239.9966,160.7832)","ColorIndex":8},"ID":18,"Name":"PatrolSequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"SetRandomPosition_Task","NodeData":{"Offset":"(-55.06653,243.502319)","Comment":"\ub79c\ub364
+        \ud3ec\uc9c0\uc158 \uacb0\uc815\nonly success","ColorIndex":6},"ID":19,"Name":"Set
+        Random Position   Task","Instant":true,"Vector3ranPos":"(0,0,0)","SharedVector3SInitPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_InitPos","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedVector3SPatrolPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_PatrolPos","IsShared":true,"Vector3mValue":"(0,0,0)"}},{"Type":"RChasePosition_Task","NodeData":{"Offset":"(131.296982,243.502319)","Comment":"\ub79c\ub364
+        \ud3ec\uc9c0\uc158 \ucd94\uc801 \ubc0f \ud0c0\uac9f\uccb4\ud06c\nrunning","ColorIndex":5},"ID":20,"Name":"R
+        Chase Position   Task","Instant":true,"SharedVector3SPatrolPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_PatrolPos","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedVector3STakeDamagedPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_FindDamagedPos","IsShared":true,"Vector3mValue":"(0,0,0)"},"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true},"SharedFloatSFindTargetRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Shared_FindTargetRadius","IsShared":true,"SinglemValue":6},"SharedLayerMaskSFindTargetLayerMask":{"Type":"BehaviorDesigner.Runtime.SharedLayerMask","Name":"Shared_FindTargetLayerMask","IsShared":true,"LayerMaskmValue":64}},{"Type":"RCheckAndWait_Task","NodeData":{"Offset":"(315.160645,243.502319)","Comment":"\uc815\uc9c0
+        \ubc0f \ud0c0\uac9f\uccb4\ud06c\nrunning","ColorIndex":5},"ID":21,"Name":"R
+        Check And Wait   Task","Instant":true,"SharedVector3STakeDamagedPos":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_FindDamagedPos","IsShared":true,"Vector3mValue":"(0,0,0)"},"SingleWaitTime":4,"SharedTransformSTarget":{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true},"SharedFloatSFindTargetRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Shared_FindTargetRadius","IsShared":true,"SinglemValue":6},"SharedLayerMaskSFindTargetLayerMask":{"Type":"BehaviorDesigner.Runtime.SharedLayerMask","Name":"Shared_FindTargetLayerMask","IsShared":true,"LayerMaskmValue":64}}]}]}]}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_InitPos","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"Shared_TargetTransform","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedLayerMask","Name":"Shared_FindTargetLayerMask","IsShared":true,"LayerMaskmValue":64},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"Shared_FindTargetRadius","IsShared":true,"SinglemValue":6},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_FindDamagedPos","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"Shared_PatrolPos","IsShared":true,"Vector3mValue":"(0,0,0)"}]}'
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 1.7.9

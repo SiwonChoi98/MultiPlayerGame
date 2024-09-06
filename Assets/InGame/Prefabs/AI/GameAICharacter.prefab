@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6349599070945850179}
   - component: {fileID: 4427983532162000499}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: WeaponAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 1740445619688185467}
   - component: {fileID: 6285276489715356651}
   - component: {fileID: 462910543668823519}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: lmg_FrontHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 8170353202750861538}
   - component: {fileID: 2010268327759678411}
   - component: {fileID: 5563897337683091906}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +288,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2671069846733439911}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 3780347054298049614}
   - component: {fileID: 1105337774149221938}
   - component: {fileID: 1038398587020046694}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Txt_HealthCount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -415,7 +415,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7885963688222346008}
   - component: {fileID: 369452806277210637}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: WeaponSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,14 +509,14 @@ GameObject:
   - component: {fileID: 8566683153249538936}
   - component: {fileID: 2912010003873567260}
   - component: {fileID: 1372902875368642491}
-  - component: {fileID: 1992435165195610249}
   - component: {fileID: 8647230955332764152}
   - component: {fileID: 5506766547851003655}
   - component: {fileID: 4424040852751564426}
   - component: {fileID: 8773255004645961673}
   - component: {fileID: 5526992218652566405}
   - component: {fileID: 4279684452242344176}
-  m_Layer: 6
+  - component: {fileID: -1136324956906290780}
+  m_Layer: 7
   m_Name: GameAICharacter
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -778,46 +778,6 @@ MonoBehaviour:
   _deadTime: 0
   IsAI: 1
   _statusAudioSource: {fileID: 0}
---- !u!114 &1992435165195610249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4328573059180563747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWhenEnabled: 1
-  asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
-  group: 0
-  resetValuesOnRestart: 0
-  externalBehavior: {fileID: 11400000, guid: d949056e13bc189459bf1369730b1051, type: 2}
-  mBehaviorSource:
-    behaviorName: AI Character Behavior
-    behaviorDescription: 
-    mTaskData:
-      types: []
-      parentIndex: 
-      startIndex: 
-      variableStartIndex: 
-      JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedTransform","Name":"TreeClosestTarget","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"TreeRandomPath","IsShared":true,"Vector3mValue":"(0,0,0)"},{"Type":"BehaviorDesigner.Runtime.SharedTransformList","Name":"TreeTargets","IsShared":true,"List`1mValue":[]}]}'
-      fieldSerializationData:
-        typeName: []
-        fieldNameHash: 
-        startIndex: 
-        dataPosition: 
-        unityObjects: []
-        byteData: 
-        byteDataArray: 
-      Version: 1.7.9
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
 --- !u!195 &8647230955332764152
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -927,6 +887,46 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+--- !u!114 &-1136324956906290780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4328573059180563747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWhenEnabled: 1
+  asynchronousLoad: 0
+  pauseWhenDisabled: 0
+  restartWhenComplete: 0
+  logTaskChanges: 0
+  group: 0
+  resetValuesOnRestart: 0
+  externalBehavior: {fileID: 11400000, guid: 46ccee5e253afd64c8ed0c0029dec172, type: 2}
+  mBehaviorSource:
+    behaviorName: New AI Behavior
+    behaviorDescription: 
+    mTaskData:
+      types: []
+      parentIndex: 
+      startIndex: 
+      variableStartIndex: 
+      JSONSerialization: 
+      fieldSerializationData:
+        typeName: []
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
+        unityObjects: []
+        byteData: 
+        byteDataArray: 
+      Version: 
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!1 &4396276601826317997
 GameObject:
   m_ObjectHideFlags: 0
@@ -936,7 +936,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1981446199792646614}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Hp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -979,7 +979,7 @@ GameObject:
   - component: {fileID: 1131762376992640851}
   - component: {fileID: 1457417883741235195}
   - component: {fileID: 8457688332913818595}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: CharacterCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1110,7 +1110,7 @@ GameObject:
   - component: {fileID: 8265767898242964417}
   - component: {fileID: 2757150181821932887}
   - component: {fileID: 2796338717198489460}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Img_FindTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,7 +1185,7 @@ GameObject:
   - component: {fileID: 8788175776828862964}
   - component: {fileID: 3140171013520694480}
   - component: {fileID: 1529451931415718703}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Img_BackHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1258,7 +1258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8147596616835004770}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: FindTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1295,7 +1295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6231143437064657262}
   - component: {fileID: 6700044547962490662}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: MoveAudioSource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1428,6 +1428,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3601990362137815724, guid: f203084a221ba1c4eab84d3eaa8f530f,
         type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601990362137815724, guid: f203084a221ba1c4eab84d3eaa8f530f,
+        type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1535,6 +1540,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910395116193430862, guid: f203084a221ba1c4eab84d3eaa8f530f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

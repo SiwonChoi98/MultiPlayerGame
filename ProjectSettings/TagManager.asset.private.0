@@ -3,18 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Enemy
-  - Wall
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - MinimapIcon
+  - 
   - Water
   - UI
-  - Character
-  - AI
+  - 
+  - 
   - 
   - 
   - 
