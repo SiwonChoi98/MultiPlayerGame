@@ -56,6 +56,15 @@ Sub : Github
 
 ##### 코드 구조 및 다이어 그램
 
+<img width="558" alt="1" src="https://github.com/user-attachments/assets/45303a77-6d68-46fa-939e-ab79e9e4df58">
+<img width="301" alt="2" src="https://github.com/user-attachments/assets/e97b85d9-1f01-4abe-94e3-a929ede8ed4b">
+<img width="287" alt="3" src="https://github.com/user-attachments/assets/f916b15a-3fc2-4ab5-b5b2-19888de62a27">
+<img width="298" alt="4" src="https://github.com/user-attachments/assets/09ad144d-f271-43e2-bea9-0171d8c51126">
+<img width="307" alt="5" src="https://github.com/user-attachments/assets/b9581f0b-60fc-4d97-8379-40bd7382051b">
+<img width="299" alt="6" src="https://github.com/user-attachments/assets/341502a2-0c2d-4e31-9163-f171d82f6ae4">
+<img width="321" alt="7" src="https://github.com/user-attachments/assets/7ea13636-7c23-4940-8a73-a1674460c7b2">
+<img width="326" alt="8" src="https://github.com/user-attachments/assets/4139efd6-cc99-45a4-921d-e845e9a99994">
+
 ![2](https://github.com/user-attachments/assets/de8a24ac-9204-432b-ad01-1b207a4d9b9e)
 ![3](https://github.com/user-attachments/assets/eeec2d27-ee52-4c44-aab8-3db7956865d1)
 ![4](https://github.com/user-attachments/assets/d81f1048-3916-4b51-9e0b-0db3a678c4fc)
