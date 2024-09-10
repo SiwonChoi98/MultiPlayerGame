@@ -15,7 +15,9 @@
 
 -----------------------------------------------------
 ##### 게임 플레이
-1. 해당 링크로 들어가서 파일 다운로드
+1. 해당 링크로 들어가서 파일 다운로드 <2가지 버전 제공>
+- 안정성 테스트 못한 최신빌드
+- 기존 빌드
 
 <div align=left>
  <a href="https://drive.google.com/drive/folders/1VX7qYBRKgobWSIG66x_QA4sdJgjD__O8?usp=sharing">
